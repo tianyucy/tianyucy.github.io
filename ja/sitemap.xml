@@ -11,13 +11,8 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en"
+                hreflang="en-us"
                 href="https://tianyucy.github.io/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://tianyucy.github.io/zh-tw/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -34,13 +29,8 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en"
+                hreflang="en-us"
                 href="https://tianyucy.github.io/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://tianyucy.github.io/zh-tw/categories/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -52,13 +42,8 @@
     <lastmod>2020-09-09T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
-                hreflang="en"
+                hreflang="en-us"
                 href="https://tianyucy.github.io/p/test-chinese/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://tianyucy.github.io/zh-tw/p/test-chinese/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -70,13 +55,8 @@
     <lastmod>2020-09-09T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
-                hreflang="en"
+                hreflang="en-us"
                 href="https://tianyucy.github.io/post/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://tianyucy.github.io/zh-tw/post/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -88,13 +68,8 @@
     <lastmod>2020-09-09T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
-                hreflang="en"
+                hreflang="en-us"
                 href="https://tianyucy.github.io/categories/test/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://tianyucy.github.io/zh-tw/categories/test/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -113,13 +88,8 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en"
+                hreflang="en-us"
                 href="https://tianyucy.github.io/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://tianyucy.github.io/zh-tw/tags/"
                 />
     <xhtml:link
                 rel="alternate"
