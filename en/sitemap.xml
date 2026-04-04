@@ -5,6 +5,11 @@
     <loc>https://tianyucy.github.io/en/categories/</loc>
     <xhtml:link
                 rel="alternate"
+                hreflang="zh-tw"
+                href="https://tianyucy.github.io/zh-tw/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
                 hreflang="ja"
                 href="https://tianyucy.github.io/ja/categories/"
                 />
@@ -12,11 +17,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://tianyucy.github.io/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://tianyucy.github.io/zh-tw/categories/"
                 />
     <xhtml:link
                 rel="alternate"
