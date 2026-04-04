@@ -5,11 +5,6 @@
     <loc>https://tianyucy.github.io/en/categories/</loc>
     <xhtml:link
                 rel="alternate"
-                hreflang="ja"
-                href="https://tianyucy.github.io/ja/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
                 hreflang="en-us"
                 href="https://tianyucy.github.io/categories/"
                 />
@@ -20,11 +15,6 @@
                 />
   </url><url>
     <loc>https://tianyucy.github.io/en/tags/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja"
-                href="https://tianyucy.github.io/ja/tags/"
-                />
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
@@ -41,11 +31,6 @@
                 rel="alternate"
                 hreflang="en-us"
                 href="https://tianyucy.github.io/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja"
-                href="https://tianyucy.github.io/ja/"
                 />
     <xhtml:link
                 rel="alternate"
