@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction This article demonstrates how to drive a 1.8-inch TFT screen (using the ST7735S chip) using Python, enabling the playback of mp4 videos on the screen.\nInstructions for Use Hardware connection According to the LCD pin definitions you provided (GND, VCC, SCL, SDA, RES, DC, CS, BL), please connect the hardware as follows\nGPIO pin LCD Pin Description Raspberry Pi Pins (Physical Number) Raspberry Pi Functions GND GND Pin 6 / 9 / 14 GND VCC VCC (3.3V) Pin 1 or Pin 17 3.3V Power SCL SPI CLK Pin 23 GPIO 11 (SPI0_SCLK) SDA SPI MOSI Pin 19 GPIO 10 (SPI0_MOSI) RES Reset Pin 22 GPIO 25(customizable) DC Data/Command Selection Pin 18 GPIO 24 (customizable) CS Chip Select Pin 24 GPIO 8 (SPI0_CE0) BL backlight control Pin 12 or Pin 1 GPIO 18 or 3.3V View pin instructions pinout\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction This article demonstrates how to drive a 1.8-inch TFT screen (using the ST7735S chip) using Python, enabling the playback of mp4 videos on the screen.\nThe code implementation is achieved through Gemini AI.\nInstructions for Use Hardware connection According to the LCD pin definitions you provided (GND, VCC, SCL, SDA, RES, DC, CS, BL), please connect the hardware as follows\nGPIO pin LCD Pin Description Raspberry Pi Pins (Physical Number) Raspberry Pi Functions GND GND Pin 6 / 9 / 14 GND VCC VCC (3.3V) Pin 1 or Pin 17 3.3V Power SCL SPI CLK Pin 23 GPIO 11 (SPI0_SCLK) SDA SPI MOSI Pin 19 GPIO 10 (SPI0_MOSI) RES Reset Pin 22 GPIO 25(customizable) DC Data/Command Selection Pin 18 GPIO 24 (customizable) CS Chip Select Pin 24 GPIO 8 (SPI0_CE0) BL backlight control Pin 12 or Pin 1 GPIO 18 or 3.3V View pin instructions pinout\n">
 <title>Using Raspberry Pi Zero 2W to drive a screen to play videos</title>
 
 <link rel='canonical' href='https://tianyucy.github.io/en/p/using-raspberry-pi-zero-2w-to-drive-a-screen-to-play-videos/'>
 
 <link rel="stylesheet" href="/scss/style.min.86591c898bd806857815fbb8c47e8d3fed97c133b78e83d9bfc27b164dd0aa2b.css"><meta property='og:title' content="Using Raspberry Pi Zero 2W to drive a screen to play videos">
-<meta property='og:description' content="Introduction This article demonstrates how to drive a 1.8-inch TFT screen (using the ST7735S chip) using Python, enabling the playback of mp4 videos on the screen.\nInstructions for Use Hardware connection According to the LCD pin definitions you provided (GND, VCC, SCL, SDA, RES, DC, CS, BL), please connect the hardware as follows\nGPIO pin LCD Pin Description Raspberry Pi Pins (Physical Number) Raspberry Pi Functions GND GND Pin 6 / 9 / 14 GND VCC VCC (3.3V) Pin 1 or Pin 17 3.3V Power SCL SPI CLK Pin 23 GPIO 11 (SPI0_SCLK) SDA SPI MOSI Pin 19 GPIO 10 (SPI0_MOSI) RES Reset Pin 22 GPIO 25(customizable) DC Data/Command Selection Pin 18 GPIO 24 (customizable) CS Chip Select Pin 24 GPIO 8 (SPI0_CE0) BL backlight control Pin 12 or Pin 1 GPIO 18 or 3.3V View pin instructions pinout\n">
+<meta property='og:description' content="Introduction This article demonstrates how to drive a 1.8-inch TFT screen (using the ST7735S chip) using Python, enabling the playback of mp4 videos on the screen.\nThe code implementation is achieved through Gemini AI.\nInstructions for Use Hardware connection According to the LCD pin definitions you provided (GND, VCC, SCL, SDA, RES, DC, CS, BL), please connect the hardware as follows\nGPIO pin LCD Pin Description Raspberry Pi Pins (Physical Number) Raspberry Pi Functions GND GND Pin 6 / 9 / 14 GND VCC VCC (3.3V) Pin 1 or Pin 17 3.3V Power SCL SPI CLK Pin 23 GPIO 11 (SPI0_SCLK) SDA SPI MOSI Pin 19 GPIO 10 (SPI0_MOSI) RES Reset Pin 22 GPIO 25(customizable) DC Data/Command Selection Pin 18 GPIO 24 (customizable) CS Chip Select Pin 24 GPIO 8 (SPI0_CE0) BL backlight control Pin 12 or Pin 1 GPIO 18 or 3.3V View pin instructions pinout\n">
 <meta property='og:url' content='https://tianyucy.github.io/en/p/using-raspberry-pi-zero-2w-to-drive-a-screen-to-play-videos/'>
 <meta property='og:site_name' content='tianyucy&#39;s blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-04-05T11:52:13&#43;08:00'/><meta property='article:modified_time' content='2026-04-05T11:52:13&#43;08:00'/>
 <meta name="twitter:title" content="Using Raspberry Pi Zero 2W to drive a screen to play videos">
-<meta name="twitter:description" content="Introduction This article demonstrates how to drive a 1.8-inch TFT screen (using the ST7735S chip) using Python, enabling the playback of mp4 videos on the screen.\nInstructions for Use Hardware connection According to the LCD pin definitions you provided (GND, VCC, SCL, SDA, RES, DC, CS, BL), please connect the hardware as follows\nGPIO pin LCD Pin Description Raspberry Pi Pins (Physical Number) Raspberry Pi Functions GND GND Pin 6 / 9 / 14 GND VCC VCC (3.3V) Pin 1 or Pin 17 3.3V Power SCL SPI CLK Pin 23 GPIO 11 (SPI0_SCLK) SDA SPI MOSI Pin 19 GPIO 10 (SPI0_MOSI) RES Reset Pin 22 GPIO 25(customizable) DC Data/Command Selection Pin 18 GPIO 24 (customizable) CS Chip Select Pin 24 GPIO 8 (SPI0_CE0) BL backlight control Pin 12 or Pin 1 GPIO 18 or 3.3V View pin instructions pinout\n">
+<meta name="twitter:description" content="Introduction This article demonstrates how to drive a 1.8-inch TFT screen (using the ST7735S chip) using Python, enabling the playback of mp4 videos on the screen.\nThe code implementation is achieved through Gemini AI.\nInstructions for Use Hardware connection According to the LCD pin definitions you provided (GND, VCC, SCL, SDA, RES, DC, CS, BL), please connect the hardware as follows\nGPIO pin LCD Pin Description Raspberry Pi Pins (Physical Number) Raspberry Pi Functions GND GND Pin 6 / 9 / 14 GND VCC VCC (3.3V) Pin 1 or Pin 17 3.3V Power SCL SPI CLK Pin 23 GPIO 11 (SPI0_SCLK) SDA SPI MOSI Pin 19 GPIO 10 (SPI0_MOSI) RES Reset Pin 22 GPIO 25(customizable) DC Data/Command Selection Pin 18 GPIO 24 (customizable) CS Chip Select Pin 24 GPIO 8 (SPI0_CE0) BL backlight control Pin 12 or Pin 1 GPIO 18 or 3.3V View pin instructions pinout\n">
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -364,7 +364,8 @@
     
     
     <h1 id="introduction"><strong>Introduction</strong>
-</h1><p>This article demonstrates how to drive a 1.8-inch TFT screen (using the ST7735S chip) using Python, enabling the playback of mp4 videos on the screen.</p>
+</h1><p>This article demonstrates how to drive a 1.8-inch TFT screen (using the ST7735S chip) using Python, enabling the playback of mp4 videos on the screen.<br>
+<font size=5>The code implementation is achieved through <strong>Gemini</strong> AI.</font></p>
 <h1 id="instructions-for-use"><strong>Instructions for Use</strong>
 </h1><h2 id="hardware-connection">Hardware connection
 </h2><p>According to the LCD pin definitions you provided (GND, VCC, SCL, SDA, RES, DC, CS, BL), please connect the hardware as follows</p>
@@ -510,73 +511,73 @@
 </span><span class="lnt">67
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">import cv2
-</span></span><span class="line"><span class="cl">import time
-</span></span><span class="line"><span class="cl">from luma.lcd.device import st7735
-</span></span><span class="line"><span class="cl">from luma.core.interface.serial import spi
-</span></span><span class="line"><span class="cl">from PIL import Image
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">cv2</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">time</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">luma.lcd.device</span> <span class="kn">import</span> <span class="n">st7735</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">luma.core.interface.serial</span> <span class="kn">import</span> <span class="n">spi</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 1. 极限硬件初始化 (60MHz)
-</span></span><span class="line"><span class="cl">serial = spi(port=0, device=0, gpio_DC=24, gpio_RST=25, baudrate=60000000)
-</span></span><span class="line"><span class="cl"># 根据你之前的调试结果，保持 bgr=True 或 False
-</span></span><span class="line"><span class="cl">try:
-</span></span><span class="line"><span class="cl">    device = st7735(serial, width=160, height=128, rotate=0, bgr=False,h_offset=1,v_offset=2)
-</span></span><span class="line"><span class="cl">except Exception as e:
-</span></span><span class="line"><span class="cl">    print(f&#34;FALSE&#34;)
+</span></span><span class="line"><span class="cl"><span class="c1"># 1. 极限硬件初始化 (60MHz)</span>
+</span></span><span class="line"><span class="cl"><span class="n">serial</span> <span class="o">=</span> <span class="n">spi</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">gpio_DC</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">gpio_RST</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">baudrate</span><span class="o">=</span><span class="mi">60000000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 根据你之前的调试结果，保持 bgr=True 或 False</span>
+</span></span><span class="line"><span class="cl"><span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">device</span> <span class="o">=</span> <span class="n">st7735</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">h_offset</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">v_offset</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;FALSE&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">def play_video_fast(video_path):
-</span></span><span class="line"><span class="cl">    cap = cv2.VideoCapture(video_path)
-</span></span><span class="line"><span class="cl">    if not cap.isOpened():
-</span></span><span class="line"><span class="cl">        return
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">play_video_fast</span><span class="p">(</span><span class="n">video_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">video_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    # 获取视频帧率
-</span></span><span class="line"><span class="cl">    fps = cap.get(cv2.CAP_PROP_FPS)
-</span></span><span class="line"><span class="cl">    frame_duration = 1.0 / fps
+</span></span><span class="line"><span class="cl">    <span class="c1"># 获取视频帧率</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fps</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FPS</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">frame_duration</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">fps</span>
 </span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    print(f&#34;原始帧率: {fps}, 目标分辨率: {device.width}x{device.height}&#34;)
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;原始帧率: </span><span class="si">{</span><span class="n">fps</span><span class="si">}</span><span class="s2">, 目标分辨率: </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    start_time = time.time()
-</span></span><span class="line"><span class="cl">    frame_count = 0
+</span></span><span class="line"><span class="cl">    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">frame_count</span> <span class="o">=</span> <span class="mi">0</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    try:
-</span></span><span class="line"><span class="cl">        while cap.isOpened():
-</span></span><span class="line"><span class="cl">            ret, frame = cap.read()
-</span></span><span class="line"><span class="cl">            if not ret: break
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span> <span class="k">break</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            frame_count += 1
+</span></span><span class="line"><span class="cl">            <span class="n">frame_count</span> <span class="o">+=</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl">            # --- 核心优化：动态跳帧 ---
-</span></span><span class="line"><span class="cl">            # 计算当前应该播放哪一帧
-</span></span><span class="line"><span class="cl">            elapsed = time.time() - start_time
-</span></span><span class="line"><span class="cl">            expected_frame = int(elapsed / frame_duration)
+</span></span><span class="line"><span class="cl">            <span class="c1"># --- 核心优化：动态跳帧 ---</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 计算当前应该播放哪一帧</span>
+</span></span><span class="line"><span class="cl">            <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+</span></span><span class="line"><span class="cl">            <span class="n">expected_frame</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">elapsed</span> <span class="o">/</span> <span class="n">frame_duration</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl">            # 如果当前帧落后于预期进度，跳过这一帧不显示，直接读下一帧
-</span></span><span class="line"><span class="cl">            if frame_count &lt; expected_frame:
-</span></span><span class="line"><span class="cl">                continue
+</span></span><span class="line"><span class="cl">            <span class="c1"># 如果当前帧落后于预期进度，跳过这一帧不显示，直接读下一帧</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">frame_count</span> <span class="o">&lt;</span> <span class="n">expected_frame</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">continue</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            # --- 极速图像处理 ---
-</span></span><span class="line"><span class="cl">            # 1. 缩小图片尺寸（在转颜色前缩小更省 CPU）
-</span></span><span class="line"><span class="cl">            small_frame = cv2.resize(frame, (device.width, device.height), interpolation=cv2.INTER_NEAREST)
+</span></span><span class="line"><span class="cl">            <span class="c1"># --- 极速图像处理 ---</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 1. 缩小图片尺寸（在转颜色前缩小更省 CPU）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">small_frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">device</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_NEAREST</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl">            # 2. 颜色转换 (BGR -&gt; RGB)
-</span></span><span class="line"><span class="cl">            rgb_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
+</span></span><span class="line"><span class="cl">            <span class="c1"># 2. 颜色转换 (BGR -&gt; RGB)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">rgb_frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">small_frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl">            # 3. 直接转 PIL 图像并显示
-</span></span><span class="line"><span class="cl">            img = Image.fromarray(rgb_frame)
-</span></span><span class="line"><span class="cl">            device.display(img)
+</span></span><span class="line"><span class="cl">            <span class="c1"># 3. 直接转 PIL 图像并显示</span>
+</span></span><span class="line"><span class="cl">            <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">rgb_frame</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">device</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            # 稍微控制一下，防止跑太快（可选）
-</span></span><span class="line"><span class="cl">            # time.sleep(0.001)
+</span></span><span class="line"><span class="cl">            <span class="c1"># 稍微控制一下，防止跑太快（可选）</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># time.sleep(0.001)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    except KeyboardInterrupt:
-</span></span><span class="line"><span class="cl">        print(&#34;停止播放&#34;)
-</span></span><span class="line"><span class="cl">    finally:
-</span></span><span class="line"><span class="cl">        cap.release()
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;停止播放&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">finally</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">if __name__ == &#34;__main__&#34;:
-</span></span><span class="line"><span class="cl">    import sys
-</span></span><span class="line"><span class="cl">    video = sys.argv[1] if len(sys.argv) &gt; 1 else &#34;video.mp4&#34;
-</span></span><span class="line"><span class="cl">    play_video_fast(video)
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl">    <span class="n">video</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&#34;video.mp4&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">play_video_fast</span><span class="p">(</span><span class="n">video</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div>
