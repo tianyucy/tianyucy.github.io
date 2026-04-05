@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en-us" dir="ltr">
+<html lang="en" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="介绍 本文章通过python来驱动1.8寸TFT屏幕（使用ST7735S芯片），仅能实现将mp4视频在屏幕上播放。\n使用说明 硬件连接 根据您提供的 LCD 引脚定义（GND, VCC, SCL, SDA, RES, DC, CS, BL），请按以下方式连接硬件\n">
-<title>使用树莓派zer2w驱动屏幕播放视频</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction This article demonstrates how to drive a 1.8-inch TFT screen (using the ST7735S chip) using Python, enabling the playback of mp4 videos on the screen.\nInstructions for Use Hardware connection According to the LCD pin definitions you provided (GND, VCC, SCL, SDA, RES, DC, CS, BL), please connect the hardware as follows\nGPIO pin LCD Pin Description Raspberry Pi Pins (Physical Number) Raspberry Pi Functions GND GND Pin 6 / 9 / 14 GND VCC VCC (3.3V) Pin 1 or Pin 17 3.3V Power SCL SPI CLK Pin 23 GPIO 11 (SPI0_SCLK) SDA SPI MOSI Pin 19 GPIO 10 (SPI0_MOSI) RES Reset Pin 22 GPIO 25(customizable) DC Data/Command Selection Pin 18 GPIO 24 (customizable) CS Chip Select Pin 24 GPIO 8 (SPI0_CE0) BL backlight control Pin 12 or Pin 1 GPIO 18 or 3.3V View pin instructions pinout\n">
+<title>Using Raspberry Pi Zero 2W to drive a screen to play videos</title>
 
-<link rel='canonical' href='https://tianyucy.github.io/p/%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BEzer2w%E9%A9%B1%E5%8A%A8%E5%B1%8F%E5%B9%95%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/'>
+<link rel='canonical' href='https://tianyucy.github.io/en/p/using-raspberry-pi-zero-2w-to-drive-a-screen-to-play-videos/'>
 
-<link rel="stylesheet" href="/scss/style.min.86591c898bd806857815fbb8c47e8d3fed97c133b78e83d9bfc27b164dd0aa2b.css"><meta property='og:title' content="使用树莓派zer2w驱动屏幕播放视频">
-<meta property='og:description' content="介绍 本文章通过python来驱动1.8寸TFT屏幕（使用ST7735S芯片），仅能实现将mp4视频在屏幕上播放。\n使用说明 硬件连接 根据您提供的 LCD 引脚定义（GND, VCC, SCL, SDA, RES, DC, CS, BL），请按以下方式连接硬件\n">
-<meta property='og:url' content='https://tianyucy.github.io/p/%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BEzer2w%E9%A9%B1%E5%8A%A8%E5%B1%8F%E5%B9%95%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/'>
-<meta property='og:site_name' content='天俞cy的博客'>
+<link rel="stylesheet" href="/scss/style.min.86591c898bd806857815fbb8c47e8d3fed97c133b78e83d9bfc27b164dd0aa2b.css"><meta property='og:title' content="Using Raspberry Pi Zero 2W to drive a screen to play videos">
+<meta property='og:description' content="Introduction This article demonstrates how to drive a 1.8-inch TFT screen (using the ST7735S chip) using Python, enabling the playback of mp4 videos on the screen.\nInstructions for Use Hardware connection According to the LCD pin definitions you provided (GND, VCC, SCL, SDA, RES, DC, CS, BL), please connect the hardware as follows\nGPIO pin LCD Pin Description Raspberry Pi Pins (Physical Number) Raspberry Pi Functions GND GND Pin 6 / 9 / 14 GND VCC VCC (3.3V) Pin 1 or Pin 17 3.3V Power SCL SPI CLK Pin 23 GPIO 11 (SPI0_SCLK) SDA SPI MOSI Pin 19 GPIO 10 (SPI0_MOSI) RES Reset Pin 22 GPIO 25(customizable) DC Data/Command Selection Pin 18 GPIO 24 (customizable) CS Chip Select Pin 24 GPIO 8 (SPI0_CE0) BL backlight control Pin 12 or Pin 1 GPIO 18 or 3.3V View pin instructions pinout\n">
+<meta property='og:url' content='https://tianyucy.github.io/en/p/using-raspberry-pi-zero-2w-to-drive-a-screen-to-play-videos/'>
+<meta property='og:site_name' content='tianyucy&#39;s blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-04-05T11:52:13&#43;08:00'/><meta property='article:modified_time' content='2026-04-05T11:52:13&#43;08:00'/>
-<meta name="twitter:title" content="使用树莓派zer2w驱动屏幕播放视频">
-<meta name="twitter:description" content="介绍 本文章通过python来驱动1.8寸TFT屏幕（使用ST7735S芯片），仅能实现将mp4视频在屏幕上播放。\n使用说明 硬件连接 根据您提供的 LCD 引脚定义（GND, VCC, SCL, SDA, RES, DC, CS, BL），请按以下方式连接硬件\n">
+<meta name="twitter:title" content="Using Raspberry Pi Zero 2W to drive a screen to play videos">
+<meta name="twitter:description" content="Introduction This article demonstrates how to drive a 1.8-inch TFT screen (using the ST7735S chip) using Python, enabling the playback of mp4 videos on the screen.\nInstructions for Use Hardware connection According to the LCD pin definitions you provided (GND, VCC, SCL, SDA, RES, DC, CS, BL), please connect the hardware as follows\nGPIO pin LCD Pin Description Raspberry Pi Pins (Physical Number) Raspberry Pi Functions GND GND Pin 6 / 9 / 14 GND VCC VCC (3.3V) Pin 1 or Pin 17 3.3V Power SCL SPI CLK Pin 23 GPIO 11 (SPI0_SCLK) SDA SPI MOSI Pin 19 GPIO 10 (SPI0_MOSI) RES Reset Pin 22 GPIO 25(customizable) DC Data/Command Selection Pin 18 GPIO 24 (customizable) CS Chip Select Pin 24 GPIO 8 (SPI0_CE0) BL backlight control Pin 12 or Pin 1 GPIO 18 or 3.3V View pin instructions pinout\n">
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -42,7 +42,7 @@
     })();
 </script>
 <div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
         </span>
@@ -52,7 +52,7 @@
         
             
             <figure class="site-avatar">
-                <a href="/">
+                <a href="/en/">
                 
                     
                     
@@ -69,8 +69,8 @@
         
         
         <div class="site-meta">
-            <h1 class="site-name"><a href="/">天俞cy的博客</a></h1>
-            <h2 class="site-description">欢迎来到我的博客!</h2>
+            <h1 class="site-name"><a href="/en">tianyucy&#39;s blog</a></h1>
+            <h2 class="site-description">Welcome to my blog!</h2>
         </div>
     </header><ol class="menu-social">
             
@@ -113,7 +113,7 @@
         
         
         <li >
-            <a href='/' >
+            <a href='/en/' >
                 
                 
                 
@@ -127,13 +127,13 @@
 
 
                 
-                <span>主页</span>
+                <span>home</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/%E5%85%B3%E4%BA%8E/' >
+            <a href='/en/about/' >
                 
                 
                 
@@ -146,13 +146,13 @@
 
 
                 
-                <span>关于</span>
+                <span>About</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/%E5%BD%92%E6%A1%A3/' >
+            <a href='/en/archives/' >
                 
                 
                 
@@ -166,13 +166,13 @@
 
 
                 
-                <span>归档</span>
+                <span>Archives</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/search/' >
+            <a href='/en/search/' >
                 
                 
                 
@@ -185,13 +185,13 @@
 
 
                 
-                <span>搜索</span>
+                <span>Search</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/%E9%93%BE%E6%8E%A5/' >
+            <a href='/en/links/' >
                 
                 
                 
@@ -204,7 +204,7 @@
 
 
                 
-                <span>链接</span>
+                <span>Links</span>
             </a>
         </li>
         
@@ -225,9 +225,9 @@
 
                             <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
                                 
-                                    <option value="https://tianyucy.github.io/" selected>简体中文</option>
+                                    <option value="https://tianyucy.github.io/" >简体中文</option>
                                 
-                                    <option value="https://tianyucy.github.io/en/" >english</option>
+                                    <option value="https://tianyucy.github.io/en/" selected>english</option>
                                 
                             </select>
                         </li>
@@ -252,7 +252,7 @@
 
 
 
-                        <span>暗色模式</span>
+                        <span>Dark Mode</span>
                     </li>
                 
             </ol>
@@ -277,16 +277,16 @@
 
 
         </div>
-        <h2 class="widget-title section-title">目录</h2>
+        <h2 class="widget-title section-title">Table of contents</h2>
         
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#硬件连接">硬件连接</a></li>
-    <li><a href="#gpio-引脚">GPIO 引脚</a></li>
-    <li><a href="#查看引脚指令">查看引脚指令</a></li>
-    <li><a href="#如何使用">如何使用</a></li>
-    <li><a href="#python代码">python代码</a></li>
+    <li><a href="#hardware-connection">Hardware connection</a></li>
+    <li><a href="#gpio-pin">GPIO pin</a></li>
+    <li><a href="#view-pin-instructions">View pin instructions</a></li>
+    <li><a href="#how-to-use">How to use</a></li>
+    <li><a href="#python-code">Python code</a></li>
   </ol>
 </nav>
         </div>
@@ -306,7 +306,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BEzer2w%E9%A9%B1%E5%8A%A8%E5%B1%8F%E5%B9%95%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/">使用树莓派zer2w驱动屏幕播放视频</a>
+            <a href="/en/p/using-raspberry-pi-zero-2w-to-drive-a-screen-to-play-videos/">Using Raspberry Pi Zero 2W to drive a screen to play videos</a>
         </h2>
     
         
@@ -337,6 +337,25 @@
     
 
     
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://tianyucy.github.io/p/%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BEzero2w%E9%A9%B1%E5%8A%A8%E5%B1%8F%E5%B9%95%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/" class="link">简体中文</a>
+                
+            </div>
+        </footer>
+    
 </div>
 
 </header>
@@ -344,82 +363,82 @@
     <section class="article-content">
     
     
-    <h1 id="介绍"><strong>介绍</strong>
-</h1><p>本文章通过python来驱动1.8寸TFT屏幕（使用ST7735S芯片），仅能实现将mp4视频在屏幕上播放。</p>
-<h1 id="使用说明"><strong>使用说明</strong>
-</h1><h2 id="硬件连接">硬件连接
-</h2><p>根据您提供的 LCD 引脚定义（GND, VCC, SCL, SDA, RES, DC, CS, BL），请按以下方式连接硬件</p>
-<h2 id="gpio-引脚">GPIO 引脚
+    <h1 id="introduction"><strong>Introduction</strong>
+</h1><p>This article demonstrates how to drive a 1.8-inch TFT screen (using the ST7735S chip) using Python, enabling the playback of mp4 videos on the screen.</p>
+<h1 id="instructions-for-use"><strong>Instructions for Use</strong>
+</h1><h2 id="hardware-connection">Hardware connection
+</h2><p>According to the LCD pin definitions you provided (GND, VCC, SCL, SDA, RES, DC, CS, BL), please connect the hardware as follows</p>
+<h2 id="gpio-pin">GPIO pin
 </h2><div class="table-wrapper"><table>
   <thead>
       <tr>
           <th style="text-align: center">LCD</th>
-          <th style="text-align: center">引脚说明</th>
-          <th style="text-align: center">树莓派引脚 (物理编号)</th>
-          <th style="text-align: center">树莓派功能</th>
+          <th style="text-align: center">Pin Description</th>
+          <th style="text-align: center">Raspberry Pi Pins (Physical Number)</th>
+          <th style="text-align: center">Raspberry Pi Functions</th>
       </tr>
   </thead>
   <tbody>
       <tr>
           <td style="text-align: center">GND</td>
-          <td style="text-align: center">接地</td>
-          <td style="text-align: center">Pin 6 / 9 / 14 等</td>
+          <td style="text-align: center">GND</td>
+          <td style="text-align: center">Pin 6 / 9 / 14</td>
           <td style="text-align: center">GND</td>
       </tr>
       <tr>
           <td style="text-align: center">VCC</td>
-          <td style="text-align: center">电源 (3.3V)</td>
-          <td style="text-align: center">Pin 1 或 Pin 17</td>
+          <td style="text-align: center">VCC (3.3V)</td>
+          <td style="text-align: center">Pin 1 or Pin 17</td>
           <td style="text-align: center">3.3V Power</td>
       </tr>
       <tr>
           <td style="text-align: center">SCL</td>
-          <td style="text-align: center">SPI 时钟 (CLK)</td>
+          <td style="text-align: center">SPI CLK</td>
           <td style="text-align: center">Pin 23</td>
           <td style="text-align: center">GPIO 11 (SPI0_SCLK)</td>
       </tr>
       <tr>
           <td style="text-align: center">SDA</td>
-          <td style="text-align: center">SPI 数据 (MOSI)</td>
+          <td style="text-align: center">SPI MOSI</td>
           <td style="text-align: center">Pin 19</td>
           <td style="text-align: center">GPIO 10 (SPI0_MOSI)</td>
       </tr>
       <tr>
           <td style="text-align: center">RES</td>
-          <td style="text-align: center">复位 (Reset)</td>
+          <td style="text-align: center">Reset</td>
           <td style="text-align: center">Pin 22</td>
-          <td style="text-align: center">GPIO 25 (可自定义)</td>
+          <td style="text-align: center">GPIO 25(customizable)</td>
       </tr>
       <tr>
           <td style="text-align: center">DC</td>
-          <td style="text-align: center">数据/命令选择</td>
+          <td style="text-align: center">Data/Command Selection</td>
           <td style="text-align: center">Pin 18</td>
-          <td style="text-align: center">GPIO 24 (可自定义)</td>
+          <td style="text-align: center">GPIO 24 (customizable)</td>
       </tr>
       <tr>
           <td style="text-align: center">CS</td>
-          <td style="text-align: center">片选 (Chip Select)</td>
+          <td style="text-align: center">Chip Select</td>
           <td style="text-align: center">Pin 24</td>
           <td style="text-align: center">GPIO 8 (SPI0_CE0)</td>
       </tr>
       <tr>
           <td style="text-align: center">BL</td>
-          <td style="text-align: center">背光控制</td>
-          <td style="text-align: center">Pin 12 或 Pin 1</td>
-          <td style="text-align: center">GPIO 18 或 3.3V</td>
+          <td style="text-align: center">backlight control</td>
+          <td style="text-align: center">Pin 12 or Pin 1</td>
+          <td style="text-align: center">GPIO 18 or 3.3V</td>
       </tr>
   </tbody>
 </table></div>
-<h2 id="查看引脚指令">查看引脚指令
+<h2 id="view-pin-instructions">View pin instructions
 </h2><p>pinout</p>
-<h2 id="如何使用">如何使用
+<h2 id="how-to-use">How to use
 </h2><ol>
-<li>在终端输入：sudo raspi-config。</li>
-<li>选择 Interface Options -&gt; SPI -&gt; Yes。</li>
-<li>重启设备</li>
-<li>在终端输入 python3 play_video.py 视频名.mp4</li>
+<li>Enter <code>sudo raspi-config</code> in the terminal.</li>
+<li>Select <code>Interface Options</code> -&gt; <code>SPI</code> -&gt; <code>Yes</code>.</li>
+<li>Restart the device.</li>
+<li>Enter <code>python3 play_video.py video_name.mp4</code> in the terminal.</li>
 </ol>
-<h2 id="python代码">python代码
+<h2 id="python-code">Python code
 </h2><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -590,8 +609,8 @@
     </section>
     
     <section class="powerby">
-        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.34.2">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.34.2">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
     </section>
 </footer>
 
