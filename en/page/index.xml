@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>tianyucy&#39;s blog</title>
-        <link>https://tianyucy.github.io/en/</link>
-        <description>Recent content on tianyucy&#39;s blog</description>
+        <title>Pages on tianyucy&#39;s blog</title>
+        <link>https://tianyucy.github.io/en/page/</link>
+        <description>Recent content in Pages on tianyucy&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>天俞cy</copyright>
-        <lastBuildDate>Fri, 09 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://tianyucy.github.io/en/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 09 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://tianyucy.github.io/en/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Archives</title>
         <link>https://tianyucy.github.io/en/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
