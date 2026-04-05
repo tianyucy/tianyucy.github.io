@@ -80,7 +80,7 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h2 id=&#34;view-pin-instructions&#34;&gt;View pin instructions
-&lt;/h2&gt;&lt;p&gt;pinout&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;pinout&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id=&#34;how-to-use&#34;&gt;How to use
 &lt;/h2&gt;&lt;ol&gt;
 &lt;li&gt;Enter &lt;code&gt;sudo raspi-config&lt;/code&gt; in the terminal.&lt;/li&gt;

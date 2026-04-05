@@ -80,13 +80,13 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h2 id=&#34;查看引脚指令&#34;&gt;查看引脚指令
-&lt;/h2&gt;&lt;p&gt;pinout&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;pinout&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id=&#34;如何使用&#34;&gt;如何使用
 &lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;在终端输入：sudo raspi-config。&lt;/li&gt;
-&lt;li&gt;选择 Interface Options -&amp;gt; SPI -&amp;gt; Yes。&lt;/li&gt;
+&lt;li&gt;在终端输入：&lt;code&gt;sudo raspi-config&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;选择 &lt;code&gt;Interface Options&lt;/code&gt; -&amp;gt; &lt;code&gt;SPI&lt;/code&gt; -&amp;gt; &lt;code&gt;Yes&lt;/code&gt;。&lt;/li&gt;
 &lt;li&gt;重启设备&lt;/li&gt;
-&lt;li&gt;在终端输入 python3 play_video.py 视频名.mp4&lt;/li&gt;
+&lt;li&gt;在终端输入 &lt;code&gt;python3 play_video.py 视频名.mp4&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;python代码&#34;&gt;python代码
 &lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
