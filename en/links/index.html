@@ -227,7 +227,7 @@
                                 
                                     <option value="https://tianyucy.github.io/" >简体中文</option>
                                 
-                                    <option value="https://tianyucy.github.io/en/" selected>english</option>
+                                    <option value="https://tianyucy.github.io/en/" selected>English</option>
                                 
                             </select>
                         </li>
@@ -353,6 +353,27 @@
         <div class="article-list--compact links">
     
         <article>
+            <a href="https://www.bilibili.com" target="_blank" rel="noopener">
+                <div class="article-details">
+                    <h2 class="article-title">Bilibili</h2>
+                    <footer class="article-time">
+                        
+                            Bilibili is a Chinese video sharing website based in Shanghai, themed around animation, comics and games (ACG), where users can submit, view and add overlaid commentary on videos.
+                        
+                    </footer>
+                </div>
+        
+                
+                    
+                    
+                    <div class="article-image">
+                        <img src="https://www.bilibili.com/favicon.ico" loading="lazy">
+                    </div>
+                
+            </a>
+        </article>
+    
+        <article>
             <a href="https://github.com" target="_blank" rel="noopener">
                 <div class="article-details">
                     <h2 class="article-title">GitHub</h2>
@@ -368,6 +389,29 @@
                     
                     <div class="article-image">
                         <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" loading="lazy">
+                    </div>
+                
+            </a>
+        </article>
+    
+        <article>
+            <a href="https://gohugo.io" target="_blank" rel="noopener">
+                <div class="article-details">
+                    <h2 class="article-title">Hugo</h2>
+                    <footer class="article-time">
+                        
+                            Hugo is a fast and modern static website generator written in Go.
+                        
+                    </footer>
+                </div>
+        
+                
+                    
+                    
+                        
+                    
+                    <div class="article-image">
+                        <img src="/%E9%93%BE%E6%8E%A5/hugo_logo_icon.png" loading="lazy">
                     </div>
                 
             </a>
@@ -516,6 +560,50 @@
     }());
 </script>
 <script src=https://tianyucy.github.io/background/sakura.js></script>
+<script>
+    
+    const cssPath = "https://tianyucy.github.io/waifu/waifu.css"
+    const tipsJsonPath = "https://tianyucy.github.io/waifu/waifu-tips.json"
+    
+    const live2d_path = "https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/";
+
+    
+    function loadExternalResource(url, type) {
+        return new Promise((resolve, reject) => {
+            let tag;
+            if (type === "css") {
+                tag = document.createElement("link");
+                tag.rel = "stylesheet";
+                tag.href = url;
+            }
+            else if (type === "js") {
+                tag = document.createElement("script");
+                tag.src = url;
+            }
+            if (tag) {
+                tag.onload = () => resolve(url);
+                tag.onerror = () => reject(url);
+                document.head.appendChild(tag);
+            }
+        });
+    }
+
+    
+    if (screen.width >= 768) {
+        Promise.all([
+            loadExternalResource(cssPath, "css"),
+            loadExternalResource(live2d_path + "live2d.min.js", "js"),
+            loadExternalResource(live2d_path + "waifu-tips.js", "js")
+        ]).then(() => {
+            
+            initWidget({
+                waifuPath: tipsJsonPath,
+                cdnPath: "https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/",
+                tools: ["hitokoto", "asteroids", "switch-model", "switch-texture", "photo", "info", "quit"]
+            });
+        });
+    }
+</script>
 
     </body>
 </html>

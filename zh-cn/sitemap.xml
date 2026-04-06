@@ -44,6 +44,32 @@
     <loc>https://tianyucy.github.io/p/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2026-04-04T21:09:53+08:00</lastmod>
   </url><url>
+    <loc>https://tianyucy.github.io/page/</loc>
+    <lastmod>2019-05-28T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://tianyucy.github.io/en/page/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-us"
+                href="https://tianyucy.github.io/page/"
+                />
+  </url><url>
+    <loc>https://tianyucy.github.io/archives/</loc>
+    <lastmod>2019-05-28T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://tianyucy.github.io/en/archives/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-us"
+                href="https://tianyucy.github.io/archives/"
+                />
+  </url><url>
     <loc>https://tianyucy.github.io/categories/</loc>
     <xhtml:link
                 rel="alternate"
@@ -54,18 +80,6 @@
                 rel="alternate"
                 hreflang="en-us"
                 href="https://tianyucy.github.io/categories/"
-                />
-  </url><url>
-    <loc>https://tianyucy.github.io/page/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://tianyucy.github.io/en/page/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-us"
-                href="https://tianyucy.github.io/page/"
                 />
   </url><url>
     <loc>https://tianyucy.github.io/tags/</loc>
@@ -92,18 +106,6 @@
                 rel="alternate"
                 hreflang="en-us"
                 href="https://tianyucy.github.io/%E5%85%B3%E4%BA%8E/"
-                />
-  </url><url>
-    <loc>https://tianyucy.github.io/%E5%BD%92%E6%A1%A3/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://tianyucy.github.io/en/archives/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-us"
-                href="https://tianyucy.github.io/%E5%BD%92%E6%A1%A3/"
                 />
   </url><url>
     <loc>https://tianyucy.github.io/%E9%93%BE%E6%8E%A5/</loc>
