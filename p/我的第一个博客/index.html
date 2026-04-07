@@ -446,25 +446,6 @@
 </script>
 <script src=https://tianyucy.github.io/background/sakura.js></script>
 
-<script>
-    pjax._handleResponse = pjax.handleResponse;
-    pjax.handleResponse = function (responseText, request, href, options) {
-        if (request.responseText.match("<html")) {
-            if (responseText) {
-                
-                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
-                
-                let bodyClass = newDom.body.className;
-                document.body.setAttribute("class", bodyClass)
-            }
-            
-            pjax._handleResponse(responseText, request, href, options);
-        } else {
-            
-        }
-    }
-</script>
-
 
 <script>
     
@@ -506,7 +487,7 @@
             
             initWidget({
                 waifuPath: tipsJsonPath,
-                cdnPath: "https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/",
+                cdnPath: "https://cdn.jsdelivr.net/gh/tianyucy/static-resource@v1.0",
                 tools: ["hitokoto", "asteroids", "switch-model", "switch-texture", "photo", "info", "quit"]
             });
             initWaifuMouseEvent();
