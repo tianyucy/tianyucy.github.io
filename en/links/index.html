@@ -561,6 +561,25 @@
 </script>
 <script src=https://tianyucy.github.io/background/sakura.js></script>
 
+<script>
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function (responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                
+                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                
+                let bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass)
+            }
+            
+            pjax._handleResponse(responseText, request, href, options);
+        } else {
+            
+        }
+    }
+</script>
+
 
 <script>
     
@@ -568,6 +587,7 @@
     const tipsJsonPath = "https://tianyucy.github.io/waifu/waifu-tips.json"
     
     const live2d_path = "https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/";
+    const live2dJsPath = "https://tianyucy.github.io/waifu/live2d.min.js"
 
     
     function loadExternalResource(url, type) {
@@ -595,7 +615,8 @@
         Promise.all([
             loadExternalResource(cssPath, "css"),
             loadExternalResource(live2d_path + "live2d.min.js", "js"),
-            loadExternalResource(live2d_path + "waifu-tips.js", "js")
+            loadExternalResource(live2d_path + "waifu-tips.js", "js"),
+            loadExternalResource(live2dJsPath, "js")
         ]).then(() => {
             
             initWidget({
@@ -603,9 +624,53 @@
                 cdnPath: "https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/",
                 tools: ["hitokoto", "asteroids", "switch-model", "switch-texture", "photo", "info", "quit"]
             });
+            initWaifuMouseEvent();
         });
     }
+    function initWaifuMouseEvent() {
+        const waifu = document.getElementById("waifu");
+        let isDown = false;
+        let waifuLeft;
+        let mouseLeft;
+        let waifuTop;
+        let mouseTop;
+        
+        waifu.onmousedown = function (e) {
+            isDown = true;
+            
+            waifuLeft = waifu.offsetLeft;
+            mouseLeft = e.clientX;
+            
+            waifuTop = waifu.offsetTop;
+            mouseTop = e.clientY;
+        }
+        
+        window.onmousemove = function (e) {
+            if (!isDown) {
+                return;
+            }
+            
+            let currentLeft = waifuLeft + (e.clientX - mouseLeft);
+            if (currentLeft < 0) {
+                currentLeft = 0;
+            } else if (currentLeft > window.innerWidth - 300) {
+                currentLeft = window.innerWidth - 300;
+            }
+            waifu.style.left = currentLeft + "px";
+            
+            let currentTop = waifuTop + (e.clientY - mouseTop);
+            if (currentTop < 30) {
+                currentTop = 30
+            } else if (currentTop > window.innerHeight - 290) {
+                currentTop = window.innerHeight - 290
+            }
+            waifu.style.top = currentTop + "px";
+        }
+        
+        window.onmouseup = function (e) {
+            isDown = false;
+        }
+    }
 </script>
-
     </body>
 </html>
