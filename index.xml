@@ -14,7 +14,7 @@
         
         <guid>https://tianyucy.github.io/p/%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BEzero2w%E9%A9%B1%E5%8A%A8%E5%B1%8F%E5%B9%95%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/</guid>
         <description>&lt;h1 id=&#34;介绍&#34;&gt;&lt;strong&gt;介绍&lt;/strong&gt;
-&lt;/h1&gt;&lt;p&gt;本文章通过python来驱动1.8寸TFT屏幕（使用ST7735S芯片），仅能实现将mp4视频在屏幕上播放。&lt;br&gt;
+&lt;/h1&gt;&lt;p&gt;本文章通过python语言来驱动1.8寸TFT屏幕（使用ST7735S芯片），仅能实现将mp4视频在屏幕上播放。&lt;br&gt;
 &lt;font size=5&gt;代码实现是通过&lt;strong&gt;Gemini&lt;/strong&gt; AI来实现。&lt;/font&gt;&lt;/p&gt;
 &lt;h1 id=&#34;使用说明&#34;&gt;&lt;strong&gt;使用说明&lt;/strong&gt;
 &lt;/h1&gt;&lt;h2 id=&#34;硬件连接&#34;&gt;硬件连接
