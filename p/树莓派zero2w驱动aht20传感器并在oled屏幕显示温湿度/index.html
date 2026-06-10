@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/scss/style.min.86591c898bd806857815fbb8c47e8d3fed97c133b78e83d9bfc27b164dd0aa2b.css"><meta property='og:title' content="树莓派Zero2W驱动AHT20传感器并在OLED屏幕显示温湿度">
 <meta property='og:description' content="介绍 本文章详细记录了如何在树莓派 Zero 2 W 上通过 Python 驱动 AHT20 传感器获取温湿度，并将数据以大字体、带进度条的形式显示在 0.96 寸 OLED（SSD1306/CH1116）屏幕上。\n">
 <meta property='og:url' content='https://tianyucy.github.io/p/%E6%A0%91%E8%8E%93%E6%B4%BEzero2w%E9%A9%B1%E5%8A%A8aht20%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B9%B6%E5%9C%A8oled%E5%B1%8F%E5%B9%95%E6%98%BE%E7%A4%BA%E6%B8%A9%E6%B9%BF%E5%BA%A6/'>
-<meta property='og:site_name' content='天俞cy的博客'>
+<meta property='og:site_name' content='天俞cyの博客'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-04-20T21:49:55&#43;08:00'/><meta property='article:modified_time' content='2026-04-20T21:49:55&#43;08:00'/>
 <meta name="twitter:title" content="树莓派Zero2W驱动AHT20传感器并在OLED屏幕显示温湿度">
 <meta name="twitter:description" content="介绍 本文章详细记录了如何在树莓派 Zero 2 W 上通过 Python 驱动 AHT20 传感器获取温湿度，并将数据以大字体、带进度条的形式显示在 0.96 寸 OLED（SSD1306/CH1116）屏幕上。\n">
@@ -69,7 +69,7 @@
         
         
         <div class="site-meta">
-            <h1 class="site-name"><a href="/">天俞cy的博客</a></h1>
+            <h1 class="site-name"><a href="/">天俞cyの博客</a></h1>
             <h2 class="site-description">欢迎来到我的博客!!!</h2>
         </div>
     </header><ol class="menu-social">
@@ -356,40 +356,40 @@
 </h1><h2 id="1-硬件连接"><strong>1. 硬件连接</strong>
 </h2><p>AHT20 和 OLED 均使用 I2C 接口，由于树莓派支持 I2C 总线挂载多个设备，我们将它们并联连接。</p>
 <div class="table-wrapper"><table>
-  <thead>
-      <tr>
-          <th style="text-align: center">模块引脚</th>
-          <th style="text-align: center">引脚说明</th>
-          <th style="text-align: center">树莓派引脚 (物理编号)</th>
-          <th style="text-align: center">树莓派功能</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: center"><strong>VCC</strong></td>
-          <td style="text-align: center">电源 (3.3V)</td>
-          <td style="text-align: center">Pin 1</td>
-          <td style="text-align: center">3.3V Power</td>
-      </tr>
-      <tr>
-          <td style="text-align: center"><strong>GND</strong></td>
-          <td style="text-align: center">接地</td>
-          <td style="text-align: center">Pin 9</td>
-          <td style="text-align: center">Ground</td>
-      </tr>
-      <tr>
-          <td style="text-align: center"><strong>SCL</strong></td>
-          <td style="text-align: center">I2C 时钟</td>
-          <td style="text-align: center">Pin 5</td>
-          <td style="text-align: center">GPIO 3 (SCL)</td>
-      </tr>
-      <tr>
-          <td style="text-align: center"><strong>SDA</strong></td>
-          <td style="text-align: center">I2C 数据</td>
-          <td style="text-align: center">Pin 3</td>
-          <td style="text-align: center">GPIO 2 (SDA)</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: center">模块引脚</th>
+					<th style="text-align: center">引脚说明</th>
+					<th style="text-align: center">树莓派引脚 (物理编号)</th>
+					<th style="text-align: center">树莓派功能</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: center"><strong>VCC</strong></td>
+					<td style="text-align: center">电源 (3.3V)</td>
+					<td style="text-align: center">Pin 1</td>
+					<td style="text-align: center">3.3V Power</td>
+			</tr>
+			<tr>
+					<td style="text-align: center"><strong>GND</strong></td>
+					<td style="text-align: center">接地</td>
+					<td style="text-align: center">Pin 9</td>
+					<td style="text-align: center">Ground</td>
+			</tr>
+			<tr>
+					<td style="text-align: center"><strong>SCL</strong></td>
+					<td style="text-align: center">I2C 时钟</td>
+					<td style="text-align: center">Pin 5</td>
+					<td style="text-align: center">GPIO 3 (SCL)</td>
+			</tr>
+			<tr>
+					<td style="text-align: center"><strong>SDA</strong></td>
+					<td style="text-align: center">I2C 数据</td>
+					<td style="text-align: center">Pin 3</td>
+					<td style="text-align: center">GPIO 2 (SDA)</td>
+			</tr>
+	</tbody>
 </table></div>
 <h2 id="2-软件配置"><strong>2. 软件配置</strong>
 </h2><h3 id="启用-i2c-接口"><strong>启用 I2C 接口</strong>

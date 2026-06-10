@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/scss/style.min.86591c898bd806857815fbb8c47e8d3fed97c133b78e83d9bfc27b164dd0aa2b.css"><meta property='og:title' content="使用树莓派zero2w驱动屏幕播放视频">
 <meta property='og:description' content="介绍 本文章通过python语言来驱动1.8寸TFT屏幕（使用ST7735S芯片），仅能实现将mp4视频在屏幕上播放。\n代码实现是通过Gemini AI来实现。\n">
 <meta property='og:url' content='https://tianyucy.github.io/p/%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BEzero2w%E9%A9%B1%E5%8A%A8%E5%B1%8F%E5%B9%95%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/'>
-<meta property='og:site_name' content='天俞cy的博客'>
+<meta property='og:site_name' content='天俞cyの博客'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-04-05T11:52:13&#43;08:00'/><meta property='article:modified_time' content='2026-04-05T11:52:13&#43;08:00'/>
 <meta name="twitter:title" content="使用树莓派zero2w驱动屏幕播放视频">
 <meta name="twitter:description" content="介绍 本文章通过python语言来驱动1.8寸TFT屏幕（使用ST7735S芯片），仅能实现将mp4视频在屏幕上播放。\n代码实现是通过Gemini AI来实现。\n">
@@ -69,7 +69,7 @@
         
         
         <div class="site-meta">
-            <h1 class="site-name"><a href="/">天俞cy的博客</a></h1>
+            <h1 class="site-name"><a href="/">天俞cyの博客</a></h1>
             <h2 class="site-description">欢迎来到我的博客!!!</h2>
         </div>
     </header><ol class="menu-social">
@@ -371,64 +371,64 @@
 </h2><p>根据您提供的 LCD 引脚定义（GND, VCC, SCL, SDA, RES, DC, CS, BL），请按以下方式连接硬件</p>
 <h2 id="gpio-引脚">GPIO 引脚
 </h2><div class="table-wrapper"><table>
-  <thead>
-      <tr>
-          <th style="text-align: center">LCD</th>
-          <th style="text-align: center">引脚说明</th>
-          <th style="text-align: center">树莓派引脚 (物理编号)</th>
-          <th style="text-align: center">树莓派功能</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: center">GND</td>
-          <td style="text-align: center">接地</td>
-          <td style="text-align: center">Pin 6 / 9 / 14 等</td>
-          <td style="text-align: center">GND</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">VCC</td>
-          <td style="text-align: center">电源 (3.3V)</td>
-          <td style="text-align: center">Pin 1 或 Pin 17</td>
-          <td style="text-align: center">3.3V Power</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">SCL</td>
-          <td style="text-align: center">SPI 时钟 (CLK)</td>
-          <td style="text-align: center">Pin 23</td>
-          <td style="text-align: center">GPIO 11 (SPI0_SCLK)</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">SDA</td>
-          <td style="text-align: center">SPI 数据 (MOSI)</td>
-          <td style="text-align: center">Pin 19</td>
-          <td style="text-align: center">GPIO 10 (SPI0_MOSI)</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">RES</td>
-          <td style="text-align: center">复位 (Reset)</td>
-          <td style="text-align: center">Pin 22</td>
-          <td style="text-align: center">GPIO 25 (可自定义)</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">DC</td>
-          <td style="text-align: center">数据/命令选择</td>
-          <td style="text-align: center">Pin 18</td>
-          <td style="text-align: center">GPIO 24 (可自定义)</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">CS</td>
-          <td style="text-align: center">片选 (Chip Select)</td>
-          <td style="text-align: center">Pin 24</td>
-          <td style="text-align: center">GPIO 8 (SPI0_CE0)</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">BL</td>
-          <td style="text-align: center">背光控制</td>
-          <td style="text-align: center">Pin 12 或 Pin 1</td>
-          <td style="text-align: center">GPIO 18 或 3.3V</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th style="text-align: center">LCD</th>
+					<th style="text-align: center">引脚说明</th>
+					<th style="text-align: center">树莓派引脚 (物理编号)</th>
+					<th style="text-align: center">树莓派功能</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: center">GND</td>
+					<td style="text-align: center">接地</td>
+					<td style="text-align: center">Pin 6 / 9 / 14 等</td>
+					<td style="text-align: center">GND</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">VCC</td>
+					<td style="text-align: center">电源 (3.3V)</td>
+					<td style="text-align: center">Pin 1 或 Pin 17</td>
+					<td style="text-align: center">3.3V Power</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">SCL</td>
+					<td style="text-align: center">SPI 时钟 (CLK)</td>
+					<td style="text-align: center">Pin 23</td>
+					<td style="text-align: center">GPIO 11 (SPI0_SCLK)</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">SDA</td>
+					<td style="text-align: center">SPI 数据 (MOSI)</td>
+					<td style="text-align: center">Pin 19</td>
+					<td style="text-align: center">GPIO 10 (SPI0_MOSI)</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">RES</td>
+					<td style="text-align: center">复位 (Reset)</td>
+					<td style="text-align: center">Pin 22</td>
+					<td style="text-align: center">GPIO 25 (可自定义)</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">DC</td>
+					<td style="text-align: center">数据/命令选择</td>
+					<td style="text-align: center">Pin 18</td>
+					<td style="text-align: center">GPIO 24 (可自定义)</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">CS</td>
+					<td style="text-align: center">片选 (Chip Select)</td>
+					<td style="text-align: center">Pin 24</td>
+					<td style="text-align: center">GPIO 8 (SPI0_CE0)</td>
+			</tr>
+			<tr>
+					<td style="text-align: center">BL</td>
+					<td style="text-align: center">背光控制</td>
+					<td style="text-align: center">Pin 12 或 Pin 1</td>
+					<td style="text-align: center">GPIO 18 或 3.3V</td>
+			</tr>
+	</tbody>
 </table></div>
 <h2 id="查看引脚指令">查看引脚指令
 </h2><p><code>pinout</code></p>
