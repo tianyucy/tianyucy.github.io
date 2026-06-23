@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en-us" dir="ltr">
+<html lang="en" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="介绍 本文章通过python语言来驱动1.8寸TFT屏幕（使用ST7735S芯片），仅能实现将mp4视频在屏幕上播放。\n代码实现是通过Gemini AI来实现。\n">
-<title>使用树莓派zero2w驱动屏幕播放视频</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="This article demonstrates how to drive a 1.8-inch TFT screen (ST7735S chip) using Python to play MP4 videos. The code was generated with the help of Gemini AI.\nPrerequisites Item Description Raspberry Pi Zero 2 W Running Raspberry Pi OS 1.8&quot; TFT LCD ST7735S chip, SPI interface Jumper wires Female-to-male, 8 pieces Software Python 3, luma.lcd, opencv-python, Pillow Hardware Connection Based on the LCD pin definitions (GND, VCC, SCL, SDA, RES, DC, CS, BL), connect as follows:\n">
+<title>Using Raspberry Pi Zero 2W to Drive a Screen and Play Videos</title>
 
-<link rel='canonical' href='https://tianyucy.github.io/p/%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BEzero2w%E9%A9%B1%E5%8A%A8%E5%B1%8F%E5%B9%95%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/'>
+<link rel='canonical' href='https://tianyucy.github.io/en/p/using-raspberry-pi-zero-2w-to-drive-a-screen-and-play-videos/'>
 
-<link rel="stylesheet" href="/scss/style.min.86591c898bd806857815fbb8c47e8d3fed97c133b78e83d9bfc27b164dd0aa2b.css"><meta property='og:title' content="使用树莓派zero2w驱动屏幕播放视频">
-<meta property='og:description' content="介绍 本文章通过python语言来驱动1.8寸TFT屏幕（使用ST7735S芯片），仅能实现将mp4视频在屏幕上播放。\n代码实现是通过Gemini AI来实现。\n">
-<meta property='og:url' content='https://tianyucy.github.io/p/%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BEzero2w%E9%A9%B1%E5%8A%A8%E5%B1%8F%E5%B9%95%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/'>
-<meta property='og:site_name' content='天俞cyの博客'>
+<link rel="stylesheet" href="/scss/style.min.86591c898bd806857815fbb8c47e8d3fed97c133b78e83d9bfc27b164dd0aa2b.css"><meta property='og:title' content="Using Raspberry Pi Zero 2W to Drive a Screen and Play Videos">
+<meta property='og:description' content="This article demonstrates how to drive a 1.8-inch TFT screen (ST7735S chip) using Python to play MP4 videos. The code was generated with the help of Gemini AI.\nPrerequisites Item Description Raspberry Pi Zero 2 W Running Raspberry Pi OS 1.8&quot; TFT LCD ST7735S chip, SPI interface Jumper wires Female-to-male, 8 pieces Software Python 3, luma.lcd, opencv-python, Pillow Hardware Connection Based on the LCD pin definitions (GND, VCC, SCL, SDA, RES, DC, CS, BL), connect as follows:\n">
+<meta property='og:url' content='https://tianyucy.github.io/en/p/using-raspberry-pi-zero-2w-to-drive-a-screen-and-play-videos/'>
+<meta property='og:site_name' content='tianyucy&#39;s blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-04-05T11:52:13&#43;08:00'/><meta property='article:modified_time' content='2026-04-05T11:52:13&#43;08:00'/>
-<meta name="twitter:title" content="使用树莓派zero2w驱动屏幕播放视频">
-<meta name="twitter:description" content="介绍 本文章通过python语言来驱动1.8寸TFT屏幕（使用ST7735S芯片），仅能实现将mp4视频在屏幕上播放。\n代码实现是通过Gemini AI来实现。\n">
+<meta name="twitter:title" content="Using Raspberry Pi Zero 2W to Drive a Screen and Play Videos">
+<meta name="twitter:description" content="This article demonstrates how to drive a 1.8-inch TFT screen (ST7735S chip) using Python to play MP4 videos. The code was generated with the help of Gemini AI.\nPrerequisites Item Description Raspberry Pi Zero 2 W Running Raspberry Pi OS 1.8&quot; TFT LCD ST7735S chip, SPI interface Jumper wires Female-to-male, 8 pieces Software Python 3, luma.lcd, opencv-python, Pillow Hardware Connection Based on the LCD pin definitions (GND, VCC, SCL, SDA, RES, DC, CS, BL), connect as follows:\n">
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -42,7 +42,7 @@
     })();
 </script>
 <div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
         </span>
@@ -52,7 +52,7 @@
         
             
             <figure class="site-avatar">
-                <a href="/">
+                <a href="/en/">
                 
                     
                     
@@ -69,8 +69,8 @@
         
         
         <div class="site-meta">
-            <h1 class="site-name"><a href="/">天俞cyの博客</a></h1>
-            <h2 class="site-description">欢迎来到我的博客!!!</h2>
+            <h1 class="site-name"><a href="/en">tianyucy&#39;s blog</a></h1>
+            <h2 class="site-description">Welcome to my blog!!!</h2>
         </div>
     </header><ol class="menu-social">
             
@@ -113,7 +113,7 @@
         
         
         <li >
-            <a href='/' >
+            <a href='/en/' >
                 
                 
                 
@@ -127,13 +127,13 @@
 
 
                 
-                <span>主页</span>
+                <span>home</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/%E5%85%B3%E4%BA%8E/' >
+            <a href='/en/about/' >
                 
                 
                 
@@ -146,13 +146,13 @@
 
 
                 
-                <span>关于</span>
+                <span>About</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/archives/' >
+            <a href='/en/archives/' >
                 
                 
                 
@@ -166,13 +166,13 @@
 
 
                 
-                <span>归档</span>
+                <span>Archives</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/search/' >
+            <a href='/en/search/' >
                 
                 
                 
@@ -185,13 +185,13 @@
 
 
                 
-                <span>搜索</span>
+                <span>Search</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/%E9%93%BE%E6%8E%A5/' >
+            <a href='/en/links/' >
                 
                 
                 
@@ -204,7 +204,7 @@
 
 
                 
-                <span>链接</span>
+                <span>Links</span>
             </a>
         </li>
         
@@ -225,9 +225,9 @@
 
                             <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
                                 
-                                    <option value="https://tianyucy.github.io/" selected>简体中文</option>
+                                    <option value="https://tianyucy.github.io/" >简体中文</option>
                                 
-                                    <option value="https://tianyucy.github.io/en/" >English</option>
+                                    <option value="https://tianyucy.github.io/en/" selected>English</option>
                                 
                             </select>
                         </li>
@@ -252,7 +252,7 @@
 
 
 
-                        <span>暗色模式</span>
+                        <span>Dark Mode</span>
                     </li>
                 
             </ol>
@@ -277,16 +277,22 @@
 
 
         </div>
-        <h2 class="widget-title section-title">目录</h2>
+        <h2 class="widget-title section-title">Table of contents</h2>
         
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#硬件连接">硬件连接</a></li>
-    <li><a href="#gpio-引脚">GPIO 引脚</a></li>
-    <li><a href="#查看引脚指令">查看引脚指令</a></li>
-    <li><a href="#如何使用">如何使用</a></li>
-    <li><a href="#python代码">python代码</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#hardware-connection">Hardware Connection</a></li>
+    <li><a href="#software-setup">Software Setup</a>
+      <ol>
+        <li><a href="#enable-spi">Enable SPI</a></li>
+        <li><a href="#install-dependencies">Install Dependencies</a></li>
+      </ol>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#full-code">Full Code</a></li>
+    <li><a href="#hardware-source">Hardware Source</a></li>
   </ol>
 </nav>
         </div>
@@ -306,7 +312,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BEzero2w%E9%A9%B1%E5%8A%A8%E5%B1%8F%E5%B9%95%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/">使用树莓派zero2w驱动屏幕播放视频</a>
+            <a href="/en/p/using-raspberry-pi-zero-2w-to-drive-a-screen-and-play-videos/">Using Raspberry Pi Zero 2W to Drive a Screen and Play Videos</a>
         </h2>
     
         
@@ -351,7 +357,7 @@
 
             <div>
                 
-                    <a href="https://tianyucy.github.io/en/p/using-raspberry-pi-zero-2w-to-drive-a-screen-to-play-videos/" class="link">English</a>
+                    <a href="https://tianyucy.github.io/p/%E4%BD%BF%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BEzero-2w%E9%A9%B1%E5%8A%A8%E5%B1%8F%E5%B9%95%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/" class="link">简体中文</a>
                 
             </div>
         </footer>
@@ -363,83 +369,124 @@
     <section class="article-content">
     
     
-    <h1 id="介绍"><strong>介绍</strong>
-</h1><p>本文章通过python语言来驱动1.8寸TFT屏幕（使用ST7735S芯片），仅能实现将mp4视频在屏幕上播放。<br>
-<font size=5>代码实现是通过<strong>Gemini</strong> AI来实现。</font></p>
-<h1 id="使用说明"><strong>使用说明</strong>
-</h1><h2 id="硬件连接">硬件连接
-</h2><p>根据您提供的 LCD 引脚定义（GND, VCC, SCL, SDA, RES, DC, CS, BL），请按以下方式连接硬件</p>
-<h2 id="gpio-引脚">GPIO 引脚
+    <p>This article demonstrates how to drive a 1.8-inch TFT screen (ST7735S chip) using Python to play MP4 videos. The code was generated with the help of Gemini AI.</p>
+<h2 id="prerequisites">Prerequisites
 </h2><div class="table-wrapper"><table>
 	<thead>
 			<tr>
-					<th style="text-align: center">LCD</th>
-					<th style="text-align: center">引脚说明</th>
-					<th style="text-align: center">树莓派引脚 (物理编号)</th>
-					<th style="text-align: center">树莓派功能</th>
+					<th style="text-align: left">Item</th>
+					<th style="text-align: left">Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left">Raspberry Pi Zero 2 W</td>
+					<td style="text-align: left">Running Raspberry Pi OS</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">1.8&quot; TFT LCD</td>
+					<td style="text-align: left">ST7735S chip, SPI interface</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">Jumper wires</td>
+					<td style="text-align: left">Female-to-male, 8 pieces</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">Software</td>
+					<td style="text-align: left">Python 3, luma.lcd, opencv-python, Pillow</td>
+			</tr>
+	</tbody>
+</table></div>
+<h2 id="hardware-connection">Hardware Connection
+</h2><p>Based on the LCD pin definitions (GND, VCC, SCL, SDA, RES, DC, CS, BL), connect as follows:</p>
+<div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th style="text-align: center">LCD Pin</th>
+					<th style="text-align: center">Description</th>
+					<th style="text-align: center">Raspberry Pi Pin (Physical)</th>
+					<th style="text-align: center">Function</th>
 			</tr>
 	</thead>
 	<tbody>
 			<tr>
 					<td style="text-align: center">GND</td>
-					<td style="text-align: center">接地</td>
-					<td style="text-align: center">Pin 6 / 9 / 14 等</td>
+					<td style="text-align: center">Ground</td>
+					<td style="text-align: center">Pin 6 / 9 / 14 etc.</td>
 					<td style="text-align: center">GND</td>
 			</tr>
 			<tr>
 					<td style="text-align: center">VCC</td>
-					<td style="text-align: center">电源 (3.3V)</td>
-					<td style="text-align: center">Pin 1 或 Pin 17</td>
+					<td style="text-align: center">Power (3.3V)</td>
+					<td style="text-align: center">Pin 1 or Pin 17</td>
 					<td style="text-align: center">3.3V Power</td>
 			</tr>
 			<tr>
 					<td style="text-align: center">SCL</td>
-					<td style="text-align: center">SPI 时钟 (CLK)</td>
+					<td style="text-align: center">SPI Clock (CLK)</td>
 					<td style="text-align: center">Pin 23</td>
 					<td style="text-align: center">GPIO 11 (SPI0_SCLK)</td>
 			</tr>
 			<tr>
 					<td style="text-align: center">SDA</td>
-					<td style="text-align: center">SPI 数据 (MOSI)</td>
+					<td style="text-align: center">SPI Data (MOSI)</td>
 					<td style="text-align: center">Pin 19</td>
 					<td style="text-align: center">GPIO 10 (SPI0_MOSI)</td>
 			</tr>
 			<tr>
 					<td style="text-align: center">RES</td>
-					<td style="text-align: center">复位 (Reset)</td>
+					<td style="text-align: center">Reset</td>
 					<td style="text-align: center">Pin 22</td>
-					<td style="text-align: center">GPIO 25 (可自定义)</td>
+					<td style="text-align: center">GPIO 25 (customizable)</td>
 			</tr>
 			<tr>
 					<td style="text-align: center">DC</td>
-					<td style="text-align: center">数据/命令选择</td>
+					<td style="text-align: center">Data/Command Select</td>
 					<td style="text-align: center">Pin 18</td>
-					<td style="text-align: center">GPIO 24 (可自定义)</td>
+					<td style="text-align: center">GPIO 24 (customizable)</td>
 			</tr>
 			<tr>
 					<td style="text-align: center">CS</td>
-					<td style="text-align: center">片选 (Chip Select)</td>
+					<td style="text-align: center">Chip Select</td>
 					<td style="text-align: center">Pin 24</td>
 					<td style="text-align: center">GPIO 8 (SPI0_CE0)</td>
 			</tr>
 			<tr>
 					<td style="text-align: center">BL</td>
-					<td style="text-align: center">背光控制</td>
-					<td style="text-align: center">Pin 12 或 Pin 1</td>
-					<td style="text-align: center">GPIO 18 或 3.3V</td>
+					<td style="text-align: center">Backlight Control</td>
+					<td style="text-align: center">Pin 12 or Pin 1</td>
+					<td style="text-align: center">GPIO 18 or 3.3V</td>
 			</tr>
 	</tbody>
 </table></div>
-<h2 id="查看引脚指令">查看引脚指令
-</h2><p><code>pinout</code></p>
-<h2 id="如何使用">如何使用
+<p>Check pin definitions: <code>pinout</code></p>
+<h2 id="software-setup">Software Setup
+</h2><h3 id="enable-spi">Enable SPI
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo raspi-config
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Navigate to <code>Interface Options</code> → <code>SPI</code> → <code>Yes</code>, save and reboot.</p>
+<h3 id="install-dependencies">Install Dependencies
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pip3 install luma.lcd opencv-python Pillow
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="usage">Usage
 </h2><ol>
-<li>在终端输入：<code>sudo raspi-config</code>。</li>
-<li>选择 <code>Interface Options</code> -&gt; <code>SPI</code> -&gt; <code>Yes</code>。</li>
-<li>重启设备</li>
-<li>在终端输入 <code>python3 play_video.py 视频名.mp4</code></li>
+<li>Make sure SPI is enabled (see Software Setup)</li>
+<li>Place the MP4 video file in the same directory as the script</li>
+<li>Run: <code>python3 play_video.py video_name.mp4</code></li>
 </ol>
-<h2 id="python代码">python代码
+<h2 id="full-code">Full Code
 </h2><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -509,6 +556,8 @@
 </span><span class="lnt">65
 </span><span class="lnt">66
 </span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">cv2</span>
@@ -517,62 +566,64 @@
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">luma.core.interface.serial</span> <span class="kn">import</span> <span class="n">spi</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 1. 极限硬件初始化 (60MHz)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --- Hardware initialization (60MHz) ---</span>
 </span></span><span class="line"><span class="cl"><span class="n">serial</span> <span class="o">=</span> <span class="n">spi</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">gpio_DC</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">gpio_RST</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">baudrate</span><span class="o">=</span><span class="mi">60000000</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 根据你之前的调试结果，保持 bgr=True 或 False</span>
 </span></span><span class="line"><span class="cl"><span class="k">try</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">device</span> <span class="o">=</span> <span class="n">st7735</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">h_offset</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">v_offset</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">device</span> <span class="o">=</span> <span class="n">st7735</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">h_offset</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_offset</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;FALSE&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Initialization failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">play_video_fast</span><span class="p">(</span><span class="n">video_path</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">video_path</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Cannot open video: </span><span class="si">{</span><span class="n">video_path</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1"># 获取视频帧率</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Get video frame rate</span>
 </span></span><span class="line"><span class="cl">    <span class="n">fps</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FPS</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">frame_duration</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">fps</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;原始帧率: </span><span class="si">{</span><span class="n">fps</span><span class="si">}</span><span class="s2">, 目标分辨率: </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Original FPS: </span><span class="si">{</span><span class="n">fps</span><span class="si">}</span><span class="s2">, Target resolution: </span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">device</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="n">frame_count</span> <span class="o">=</span> <span class="mi">0</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
 </span></span><span class="line"><span class="cl">            <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span> <span class="k">break</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">            <span class="n">frame_count</span> <span class="o">+=</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl">            <span class="c1"># --- 核心优化：动态跳帧 ---</span>
-</span></span><span class="line"><span class="cl">            <span class="c1"># 计算当前应该播放哪一帧</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1"># --- Dynamic frame skipping ---</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Calculate which frame should be displayed now; skip any that fall behind</span>
 </span></span><span class="line"><span class="cl">            <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
 </span></span><span class="line"><span class="cl">            <span class="n">expected_frame</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">elapsed</span> <span class="o">/</span> <span class="n">frame_duration</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl">            <span class="c1"># 如果当前帧落后于预期进度，跳过这一帧不显示，直接读下一帧</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">frame_count</span> <span class="o">&lt;</span> <span class="n">expected_frame</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">                <span class="k">continue</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="c1"># --- 极速图像处理 ---</span>
-</span></span><span class="line"><span class="cl">            <span class="c1"># 1. 缩小图片尺寸（在转颜色前缩小更省 CPU）</span>
-</span></span><span class="line"><span class="cl">            <span class="n">small_frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">device</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_NEAREST</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl">            <span class="c1"># 2. 颜色转换 (BGR -&gt; RGB)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># --- Image processing ---</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 1. Resize to screen dimensions (resize before color conversion saves CPU)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">small_frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">device</span><span class="o">.</span><span class="n">height</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                                     <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_NEAREST</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1"># 2. Color conversion (BGR → RGB)</span>
 </span></span><span class="line"><span class="cl">            <span class="n">rgb_frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">small_frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl">            <span class="c1"># 3. 直接转 PIL 图像并显示</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1"># 3. Convert to PIL image and display</span>
 </span></span><span class="line"><span class="cl">            <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">rgb_frame</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="n">device</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="c1"># 稍微控制一下，防止跑太快（可选）</span>
-</span></span><span class="line"><span class="cl">            <span class="c1"># time.sleep(0.001)</span>
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;停止播放&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Playback stopped&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">finally</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">        <span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">    <span class="kn">import</span> <span class="nn">sys</span>
@@ -580,9 +631,9 @@
 </span></span><span class="line"><span class="cl">    <span class="n">play_video_fast</span><span class="p">(</span><span class="n">video</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="硬件来源"><strong>硬件来源</strong>
-</h1><p><a class="link" href="http://www.zjydisplay.com/product/98.html"  target="_blank" rel="noopener"
-    >1.8英寸TFT LCD</a></p>
+</div><h2 id="hardware-source">Hardware Source
+</h2><p><a class="link" href="http://www.zjydisplay.com/product/98.html"  target="_blank" rel="noopener"
+    >1.8-inch TFT LCD</a></p>
 
 </section>
 
@@ -613,8 +664,8 @@
     </section>
     
     <section class="powerby">
-        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.34.2">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.34.2">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
     </section>
 </footer>
 

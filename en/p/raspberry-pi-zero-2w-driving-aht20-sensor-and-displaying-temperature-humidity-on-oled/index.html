@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en-us" dir="ltr">
+<html lang="en" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文章详细记录如何在树莓派 Zero 2 W 上通过 Python 驱动 AHT20 温湿度传感器，并将数据以大字体、带进度条的形式显示在 0.96 寸 OLED（SSD1306/CH1116）屏幕上。本项目通过 Python 3 调用 smbus2 和 Pillow 库，代码由 Gemini AI 辅助生成。\n">
-<title>树莓派Zero2W驱动AHT20传感器并在OLED屏幕显示温湿度</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="This article walks through how to drive an AHT20 temperature &amp; humidity sensor with a Raspberry Pi Zero 2 W using Python, and display the readings on a 0.96-inch OLED screen (SSD1306/CH1116) with large fonts and a humidity progress bar. The project uses Python 3 with the smbus2 and Pillow libraries, with code generated with the help of Gemini AI.\nPrerequisites Item Description Raspberry Pi Zero 2 W Running Raspberry Pi OS AHT20 module Temperature &amp; humidity sensor, I2C interface 0.96&quot; OLED SSD1306 / CH1116 driver, I2C interface Jumper wires Female-to-male, 4 pieces Software Python 3, smbus2, Pillow, WenQuanYi Zen Hei font Hardware Connection Both the AHT20 and OLED use the I2C interface. Since the Raspberry Pi&rsquo;s I2C bus supports multiple devices, simply connect them in parallel.\n">
+<title>Raspberry Pi Zero 2W: Driving AHT20 Sensor and Displaying Temperature &amp; Humidity on OLED</title>
 
-<link rel='canonical' href='https://tianyucy.github.io/p/%E6%A0%91%E8%8E%93%E6%B4%BEzero2w%E9%A9%B1%E5%8A%A8aht20%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B9%B6%E5%9C%A8oled%E5%B1%8F%E5%B9%95%E6%98%BE%E7%A4%BA%E6%B8%A9%E6%B9%BF%E5%BA%A6/'>
+<link rel='canonical' href='https://tianyucy.github.io/en/p/raspberry-pi-zero-2w-driving-aht20-sensor-and-displaying-temperature-humidity-on-oled/'>
 
-<link rel="stylesheet" href="/scss/style.min.86591c898bd806857815fbb8c47e8d3fed97c133b78e83d9bfc27b164dd0aa2b.css"><meta property='og:title' content="树莓派Zero2W驱动AHT20传感器并在OLED屏幕显示温湿度">
-<meta property='og:description' content="本文章详细记录如何在树莓派 Zero 2 W 上通过 Python 驱动 AHT20 温湿度传感器，并将数据以大字体、带进度条的形式显示在 0.96 寸 OLED（SSD1306/CH1116）屏幕上。本项目通过 Python 3 调用 smbus2 和 Pillow 库，代码由 Gemini AI 辅助生成。\n">
-<meta property='og:url' content='https://tianyucy.github.io/p/%E6%A0%91%E8%8E%93%E6%B4%BEzero2w%E9%A9%B1%E5%8A%A8aht20%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B9%B6%E5%9C%A8oled%E5%B1%8F%E5%B9%95%E6%98%BE%E7%A4%BA%E6%B8%A9%E6%B9%BF%E5%BA%A6/'>
-<meta property='og:site_name' content='天俞cyの博客'>
+<link rel="stylesheet" href="/scss/style.min.86591c898bd806857815fbb8c47e8d3fed97c133b78e83d9bfc27b164dd0aa2b.css"><meta property='og:title' content="Raspberry Pi Zero 2W: Driving AHT20 Sensor and Displaying Temperature & Humidity on OLED">
+<meta property='og:description' content="This article walks through how to drive an AHT20 temperature &amp; humidity sensor with a Raspberry Pi Zero 2 W using Python, and display the readings on a 0.96-inch OLED screen (SSD1306/CH1116) with large fonts and a humidity progress bar. The project uses Python 3 with the smbus2 and Pillow libraries, with code generated with the help of Gemini AI.\nPrerequisites Item Description Raspberry Pi Zero 2 W Running Raspberry Pi OS AHT20 module Temperature &amp; humidity sensor, I2C interface 0.96&quot; OLED SSD1306 / CH1116 driver, I2C interface Jumper wires Female-to-male, 4 pieces Software Python 3, smbus2, Pillow, WenQuanYi Zen Hei font Hardware Connection Both the AHT20 and OLED use the I2C interface. Since the Raspberry Pi&rsquo;s I2C bus supports multiple devices, simply connect them in parallel.\n">
+<meta property='og:url' content='https://tianyucy.github.io/en/p/raspberry-pi-zero-2w-driving-aht20-sensor-and-displaying-temperature-humidity-on-oled/'>
+<meta property='og:site_name' content='tianyucy&#39;s blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-04-20T21:49:55&#43;08:00'/><meta property='article:modified_time' content='2026-04-20T21:49:55&#43;08:00'/>
-<meta name="twitter:title" content="树莓派Zero2W驱动AHT20传感器并在OLED屏幕显示温湿度">
-<meta name="twitter:description" content="本文章详细记录如何在树莓派 Zero 2 W 上通过 Python 驱动 AHT20 温湿度传感器，并将数据以大字体、带进度条的形式显示在 0.96 寸 OLED（SSD1306/CH1116）屏幕上。本项目通过 Python 3 调用 smbus2 和 Pillow 库，代码由 Gemini AI 辅助生成。\n">
+<meta name="twitter:title" content="Raspberry Pi Zero 2W: Driving AHT20 Sensor and Displaying Temperature & Humidity on OLED">
+<meta name="twitter:description" content="This article walks through how to drive an AHT20 temperature &amp; humidity sensor with a Raspberry Pi Zero 2 W using Python, and display the readings on a 0.96-inch OLED screen (SSD1306/CH1116) with large fonts and a humidity progress bar. The project uses Python 3 with the smbus2 and Pillow libraries, with code generated with the help of Gemini AI.\nPrerequisites Item Description Raspberry Pi Zero 2 W Running Raspberry Pi OS AHT20 module Temperature &amp; humidity sensor, I2C interface 0.96&quot; OLED SSD1306 / CH1116 driver, I2C interface Jumper wires Female-to-male, 4 pieces Software Python 3, smbus2, Pillow, WenQuanYi Zen Hei font Hardware Connection Both the AHT20 and OLED use the I2C interface. Since the Raspberry Pi&rsquo;s I2C bus supports multiple devices, simply connect them in parallel.\n">
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -42,7 +42,7 @@
     })();
 </script>
 <div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
         </span>
@@ -52,7 +52,7 @@
         
             
             <figure class="site-avatar">
-                <a href="/">
+                <a href="/en/">
                 
                     
                     
@@ -69,8 +69,8 @@
         
         
         <div class="site-meta">
-            <h1 class="site-name"><a href="/">天俞cyの博客</a></h1>
-            <h2 class="site-description">欢迎来到我的博客!!!</h2>
+            <h1 class="site-name"><a href="/en">tianyucy&#39;s blog</a></h1>
+            <h2 class="site-description">Welcome to my blog!!!</h2>
         </div>
     </header><ol class="menu-social">
             
@@ -113,7 +113,7 @@
         
         
         <li >
-            <a href='/' >
+            <a href='/en/' >
                 
                 
                 
@@ -127,13 +127,13 @@
 
 
                 
-                <span>主页</span>
+                <span>home</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/%E5%85%B3%E4%BA%8E/' >
+            <a href='/en/about/' >
                 
                 
                 
@@ -146,13 +146,13 @@
 
 
                 
-                <span>关于</span>
+                <span>About</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/archives/' >
+            <a href='/en/archives/' >
                 
                 
                 
@@ -166,13 +166,13 @@
 
 
                 
-                <span>归档</span>
+                <span>Archives</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/search/' >
+            <a href='/en/search/' >
                 
                 
                 
@@ -185,13 +185,13 @@
 
 
                 
-                <span>搜索</span>
+                <span>Search</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/%E9%93%BE%E6%8E%A5/' >
+            <a href='/en/links/' >
                 
                 
                 
@@ -204,7 +204,7 @@
 
 
                 
-                <span>链接</span>
+                <span>Links</span>
             </a>
         </li>
         
@@ -225,9 +225,9 @@
 
                             <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
                                 
-                                    <option value="https://tianyucy.github.io/" selected>简体中文</option>
+                                    <option value="https://tianyucy.github.io/" >简体中文</option>
                                 
-                                    <option value="https://tianyucy.github.io/en/" >English</option>
+                                    <option value="https://tianyucy.github.io/en/" selected>English</option>
                                 
                             </select>
                         </li>
@@ -252,7 +252,7 @@
 
 
 
-                        <span>暗色模式</span>
+                        <span>Dark Mode</span>
                     </li>
                 
             </ol>
@@ -277,22 +277,22 @@
 
 
         </div>
-        <h2 class="widget-title section-title">目录</h2>
+        <h2 class="widget-title section-title">Table of contents</h2>
         
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#准备工作">准备工作</a></li>
-    <li><a href="#硬件连接">硬件连接</a></li>
-    <li><a href="#软件配置">软件配置</a>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#hardware-connection">Hardware Connection</a></li>
+    <li><a href="#software-setup">Software Setup</a>
       <ol>
-        <li><a href="#启用-i2c">启用 I2C</a></li>
-        <li><a href="#安装中文字体">安装中文字体</a></li>
-        <li><a href="#创建虚拟环境并安装依赖">创建虚拟环境并安装依赖</a></li>
+        <li><a href="#enable-i2c">Enable I2C</a></li>
+        <li><a href="#install-chinese-font">Install Chinese Font</a></li>
+        <li><a href="#create-virtual-environment-and-install-dependencies">Create Virtual Environment and Install Dependencies</a></li>
       </ol>
     </li>
-    <li><a href="#使用方法">使用方法</a></li>
-    <li><a href="#完整代码">完整代码</a></li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#full-code">Full Code</a></li>
   </ol>
 </nav>
         </div>
@@ -312,7 +312,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/%E6%A0%91%E8%8E%93%E6%B4%BEzero2w%E9%A9%B1%E5%8A%A8aht20%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B9%B6%E5%9C%A8oled%E5%B1%8F%E5%B9%95%E6%98%BE%E7%A4%BA%E6%B8%A9%E6%B9%BF%E5%BA%A6/">树莓派Zero2W驱动AHT20传感器并在OLED屏幕显示温湿度</a>
+            <a href="/en/p/raspberry-pi-zero-2w-driving-aht20-sensor-and-displaying-temperature-humidity-on-oled/">Raspberry Pi Zero 2W: Driving AHT20 Sensor and Displaying Temperature &amp; Humidity on OLED</a>
         </h2>
     
         
@@ -357,7 +357,7 @@
 
             <div>
                 
-                    <a href="https://tianyucy.github.io/en/p/raspberry-pi-zero-2w-driving-aht20-sensor-and-displaying-temperature-humidity-on-oled/" class="link">English</a>
+                    <a href="https://tianyucy.github.io/p/%E6%A0%91%E8%8E%93%E6%B4%BEzero2w%E9%A9%B1%E5%8A%A8aht20%E4%BC%A0%E6%84%9F%E5%99%A8%E5%B9%B6%E5%9C%A8oled%E5%B1%8F%E5%B9%95%E6%98%BE%E7%A4%BA%E6%B8%A9%E6%B9%BF%E5%BA%A6/" class="link">简体中文</a>
                 
             </div>
         </footer>
@@ -369,78 +369,78 @@
     <section class="article-content">
     
     
-    <p>本文章详细记录如何在树莓派 Zero 2 W 上通过 Python 驱动 AHT20 温湿度传感器，并将数据以大字体、带进度条的形式显示在 0.96 寸 OLED（SSD1306/CH1116）屏幕上。本项目通过 Python 3 调用 smbus2 和 Pillow 库，代码由 Gemini AI 辅助生成。</p>
-<h2 id="准备工作">准备工作
+    <p>This article walks through how to drive an AHT20 temperature &amp; humidity sensor with a Raspberry Pi Zero 2 W using Python, and display the readings on a 0.96-inch OLED screen (SSD1306/CH1116) with large fonts and a humidity progress bar. The project uses Python 3 with the smbus2 and Pillow libraries, with code generated with the help of Gemini AI.</p>
+<h2 id="prerequisites">Prerequisites
 </h2><div class="table-wrapper"><table>
 	<thead>
 			<tr>
-					<th style="text-align: left">物品</th>
-					<th style="text-align: left">说明</th>
+					<th style="text-align: left">Item</th>
+					<th style="text-align: left">Description</th>
 			</tr>
 	</thead>
 	<tbody>
 			<tr>
-					<td style="text-align: left">树莓派 Zero 2 W</td>
-					<td style="text-align: left">已刷写 Raspberry Pi OS</td>
+					<td style="text-align: left">Raspberry Pi Zero 2 W</td>
+					<td style="text-align: left">Running Raspberry Pi OS</td>
 			</tr>
 			<tr>
-					<td style="text-align: left">AHT20 模块</td>
-					<td style="text-align: left">温湿度传感器，I2C 接口</td>
+					<td style="text-align: left">AHT20 module</td>
+					<td style="text-align: left">Temperature &amp; humidity sensor, I2C interface</td>
 			</tr>
 			<tr>
-					<td style="text-align: left">0.96 寸 OLED</td>
-					<td style="text-align: left">SSD1306 / CH1116 驱动，I2C 接口</td>
+					<td style="text-align: left">0.96&quot; OLED</td>
+					<td style="text-align: left">SSD1306 / CH1116 driver, I2C interface</td>
 			</tr>
 			<tr>
-					<td style="text-align: left">杜邦线</td>
-					<td style="text-align: left">公对母，4 根</td>
+					<td style="text-align: left">Jumper wires</td>
+					<td style="text-align: left">Female-to-male, 4 pieces</td>
 			</tr>
 			<tr>
-					<td style="text-align: left">软件依赖</td>
-					<td style="text-align: left">Python 3、smbus2、Pillow、文泉驿正黑字体</td>
+					<td style="text-align: left">Software</td>
+					<td style="text-align: left">Python 3, smbus2, Pillow, WenQuanYi Zen Hei font</td>
 			</tr>
 	</tbody>
 </table></div>
-<h2 id="硬件连接">硬件连接
-</h2><p>AHT20 和 OLED 均使用 I2C 接口，树莓派 I2C 总线支持挂载多个设备，将它们并联即可。</p>
+<h2 id="hardware-connection">Hardware Connection
+</h2><p>Both the AHT20 and OLED use the I2C interface. Since the Raspberry Pi&rsquo;s I2C bus supports multiple devices, simply connect them in parallel.</p>
 <div class="table-wrapper"><table>
 	<thead>
 			<tr>
-					<th style="text-align: center">模块引脚</th>
-					<th style="text-align: center">说明</th>
-					<th style="text-align: center">树莓派引脚 (物理编号)</th>
-					<th style="text-align: center">树莓派功能</th>
+					<th style="text-align: center">Module Pin</th>
+					<th style="text-align: center">Description</th>
+					<th style="text-align: center">Raspberry Pi Pin (Physical)</th>
+					<th style="text-align: center">Function</th>
 			</tr>
 	</thead>
 	<tbody>
 			<tr>
 					<td style="text-align: center">VCC</td>
-					<td style="text-align: center">电源 (3.3V)</td>
+					<td style="text-align: center">Power (3.3V)</td>
 					<td style="text-align: center">Pin 1</td>
 					<td style="text-align: center">3.3V Power</td>
 			</tr>
 			<tr>
 					<td style="text-align: center">GND</td>
-					<td style="text-align: center">接地</td>
+					<td style="text-align: center">Ground</td>
 					<td style="text-align: center">Pin 9</td>
 					<td style="text-align: center">Ground</td>
 			</tr>
 			<tr>
 					<td style="text-align: center">SCL</td>
-					<td style="text-align: center">I2C 时钟</td>
+					<td style="text-align: center">I2C Clock</td>
 					<td style="text-align: center">Pin 5</td>
 					<td style="text-align: center">GPIO 3 (SCL)</td>
 			</tr>
 			<tr>
 					<td style="text-align: center">SDA</td>
-					<td style="text-align: center">I2C 数据</td>
+					<td style="text-align: center">I2C Data</td>
 					<td style="text-align: center">Pin 3</td>
 					<td style="text-align: center">GPIO 2 (SDA)</td>
 			</tr>
 	</tbody>
 </table></div>
-<h2 id="软件配置">软件配置
-</h2><h3 id="启用-i2c">启用 I2C
+<h2 id="software-setup">Software Setup
+</h2><h3 id="enable-i2c">Enable I2C
 </h3><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -449,8 +449,8 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo raspi-config
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>依次选择 <code>Interface Options</code> → <code>I2C</code> → <code>Yes</code>，保存并重启。</p>
-<h3 id="安装中文字体">安装中文字体
+</div><p>Navigate to <code>Interface Options</code> → <code>I2C</code> → <code>Yes</code>, save and reboot.</p>
+<h3 id="install-chinese-font">Install Chinese Font
 </h3><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -461,7 +461,7 @@
 </span></span><span class="line"><span class="cl">sudo apt install fonts-wqy-zenhei
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="创建虚拟环境并安装依赖">创建虚拟环境并安装依赖
+</div><h3 id="create-virtual-environment-and-install-dependencies">Create Virtual Environment and Install Dependencies
 </h3><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -472,22 +472,22 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 创建并激活虚拟环境</span>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Create and activate virtual environment</span>
 </span></span><span class="line"><span class="cl">python3 -m venv myenv --system-site-packages
 </span></span><span class="line"><span class="cl"><span class="nb">source</span> myenv/bin/activate
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 安装 smbus2 (I2C 驱动) 和 Pillow (图像处理)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Install smbus2 (I2C driver) and Pillow (image processing)</span>
 </span></span><span class="line"><span class="cl">pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple smbus2 Pillow
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="使用方法">使用方法
+</div><h2 id="usage">Usage
 </h2><ol>
-<li>确保 I2C 已启用（见软件配置）</li>
-<li>激活虚拟环境：<code>source myenv/bin/activate</code></li>
-<li>运行脚本：<code>python3 oled_aht20.py</code></li>
-<li>OLED 屏幕将每 2 秒刷新一次温湿度数据</li>
+<li>Make sure I2C is enabled (see Software Setup)</li>
+<li>Activate the virtual environment: <code>source myenv/bin/activate</code></li>
+<li>Run the script: <code>python3 oled_aht20.py</code></li>
+<li>The OLED will refresh temperature and humidity readings every 2 seconds</li>
 </ol>
-<h2 id="完整代码">完整代码
+<h2 id="full-code">Full Code
 </h2><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">  1
@@ -611,15 +611,15 @@
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">smbus2</span> <span class="kn">import</span> <span class="n">SMBus</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageDraw</span><span class="p">,</span> <span class="n">ImageFont</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># --- 配置 ---</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --- Configuration ---</span>
 </span></span><span class="line"><span class="cl"><span class="n">I2C_BUS</span> <span class="o">=</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl"><span class="n">AHT20_ADDR</span> <span class="o">=</span> <span class="mh">0x38</span>
 </span></span><span class="line"><span class="cl"><span class="n">OLED_ADDR</span> <span class="o">=</span> <span class="mh">0x3C</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># --- 字体加载 ---</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --- Font Loading ---</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_font</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;尝试多个常见路径，确保找到中文字体&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Try multiple common paths to find a Chinese font&#34;&#34;&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">font_paths</span> <span class="o">=</span> <span class="p">[</span>
 </span></span><span class="line"><span class="cl">        <span class="s2">&#34;simhei.ttf&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">        <span class="s2">&#34;/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc&#34;</span><span class="p">,</span>
@@ -629,17 +629,17 @@
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">ImageFont</span><span class="o">.</span><span class="n">truetype</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;警告: 未找到中文字体，使用系统默认字体 (字号: </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">)&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Warning: Chinese font not found, using default (size: </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">)&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ImageFont</span><span class="o">.</span><span class="n">load_default</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># --- OLED 驱动 ---</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --- OLED Driver ---</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">oled_command</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">bus</span><span class="o">.</span><span class="n">write_byte_data</span><span class="p">(</span><span class="n">OLED_ADDR</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">oled_init</span><span class="p">(</span><span class="n">bus</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;初始化 OLED，包含电荷泵和页寻址模式&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Initialize OLED with charge pump and page addressing mode&#34;&#34;&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">cmds</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0xAE</span><span class="p">,</span> <span class="mh">0xD5</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">,</span> <span class="mh">0xA8</span><span class="p">,</span> <span class="mh">0x3F</span><span class="p">,</span> <span class="mh">0xD3</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="mh">0x8D</span><span class="p">,</span> <span class="mh">0x14</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">            <span class="mh">0x20</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0xA1</span><span class="p">,</span> <span class="mh">0xC8</span><span class="p">,</span> <span class="mh">0xDA</span><span class="p">,</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0xCF</span><span class="p">,</span> <span class="mh">0xD9</span><span class="p">,</span> <span class="mh">0xF1</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">            <span class="mh">0xDB</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="mh">0xA4</span><span class="p">,</span> <span class="mh">0xA6</span><span class="p">,</span> <span class="mh">0xAF</span><span class="p">]</span>
@@ -648,7 +648,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">oled_display</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;将 PIL Image 推送到 OLED&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Push a PIL Image to the OLED&#34;&#34;&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&#34;1&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">pix</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
@@ -666,9 +666,9 @@
 </span></span><span class="line"><span class="cl">            <span class="n">bus</span><span class="o">.</span><span class="n">write_i2c_block_data</span><span class="p">(</span><span class="n">OLED_ADDR</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="n">page_data</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">32</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># --- AHT20 传感器 ---</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --- AHT20 Sensor ---</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">read_aht20</span><span class="p">(</span><span class="n">bus</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;读取 AHT20，返回 (温度°C, 湿度%)&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Read AHT20, returns (temperature in °C, humidity in %)&#34;&#34;&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">bus</span><span class="o">.</span><span class="n">write_i2c_block_data</span><span class="p">(</span><span class="n">AHT20_ADDR</span><span class="p">,</span> <span class="mh">0xAC</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x33</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.08</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="n">bus</span><span class="o">.</span><span class="n">read_i2c_block_data</span><span class="p">(</span><span class="n">AHT20_ADDR</span><span class="p">,</span> <span class="mh">0x71</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
@@ -677,15 +677,15 @@
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">t_raw</span> <span class="o">/</span> <span class="mi">1048576</span> <span class="o">*</span> <span class="mi">200</span> <span class="o">-</span> <span class="mi">50</span><span class="p">),</span> <span class="p">(</span><span class="n">h_raw</span> <span class="o">/</span> <span class="mi">1048576</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># --- 主程序 ---</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --- Main Program ---</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
 </span></span><span class="line"><span class="cl">    <span class="n">bus</span> <span class="o">=</span> <span class="n">SMBus</span><span class="p">(</span><span class="n">I2C_BUS</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">oled_init</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1"># 加载三种字号</span>
-</span></span><span class="line"><span class="cl">    <span class="n">f_huge</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>   <span class="c1"># 温度数字</span>
-</span></span><span class="line"><span class="cl">    <span class="n">f_mid</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>    <span class="c1"># 中文标签</span>
-</span></span><span class="line"><span class="cl">    <span class="n">f_small</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>  <span class="c1"># 单位符号</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Load three font sizes</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f_huge</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>   <span class="c1"># Temperature digits</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f_mid</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>    <span class="c1"># Labels</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f_small</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>  <span class="c1"># Unit symbols</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">        <span class="k">try</span><span class="p">:</span>
@@ -693,20 +693,20 @@
 </span></span><span class="line"><span class="cl">            <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&#34;1&#34;</span><span class="p">,</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">            <span class="n">draw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="c1"># --- 温度显示 ---</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># --- Temperature display ---</span>
 </span></span><span class="line"><span class="cl">            <span class="n">t_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">temp</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&#34;</span>
 </span></span><span class="line"><span class="cl">            <span class="n">draw</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="n">t_str</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">f_huge</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="n">t_w</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">textlength</span><span class="p">(</span><span class="n">t_str</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">f_huge</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="n">draw</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="mi">5</span> <span class="o">+</span> <span class="n">t_w</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="s2">&#34;°C&#34;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">f_mid</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="c1"># --- 分隔线 ---</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># --- Separator line ---</span>
 </span></span><span class="line"><span class="cl">            <span class="n">draw</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="c1"># --- 湿度显示 ---</span>
-</span></span><span class="line"><span class="cl">            <span class="n">draw</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&#34;湿度:&#34;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">f_mid</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># --- Humidity display ---</span>
+</span></span><span class="line"><span class="cl">            <span class="n">draw</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&#34;Humidity:&#34;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">f_mid</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="n">draw</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="mi">50</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">humi</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&#34;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">f_mid</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="c1"># --- 湿度进度条 ---</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># --- Humidity progress bar ---</span>
 </span></span><span class="line"><span class="cl">            <span class="n">draw</span><span class="o">.</span><span class="n">rectangle</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">122</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> <span class="n">outline</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="n">bar_w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">humi</span> <span class="o">/</span> <span class="mi">100</span> <span class="o">*</span> <span class="mi">115</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="n">draw</span><span class="o">.</span><span class="n">rectangle</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">7</span> <span class="o">+</span> <span class="n">bar_w</span><span class="p">,</span> <span class="mi">58</span><span class="p">),</span> <span class="n">outline</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
@@ -752,8 +752,8 @@
     </section>
     
     <section class="powerby">
-        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.34.2">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.34.2">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
     </section>
 </footer>
 
