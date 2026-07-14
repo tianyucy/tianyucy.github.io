@@ -5,6 +5,413 @@
   <link href="https://tianyucy.github.io/" rel="alternate" type="text/html"/>
   <link href="https://tianyucy.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://tianyucy.github.io/</id>
-  <updated>2026-07-14T16:36:53.328Z</updated>
+  <updated>2026-07-14T16:44:45.427Z</updated>
   <language>zh_CN</language>
+  <entry>
+    <title>树莓派Zero2W驱动AHT20传感器并在OLED屏幕显示温湿度</title>
+    <link href="https://tianyucy.github.io/posts/raspi-aht20-oled/" rel="alternate" type="text/html"/>
+    <id>https://tianyucy.github.io/posts/raspi-aht20-oled/</id>
+    <published>2026-04-20T00:00:00.000Z</published>
+    <updated>2026-04-20T00:00:00.000Z</updated>
+    <summary></summary>
+    <content type="html"><![CDATA[<p>本文章详细记录如何在树莓派 Zero 2 W 上通过 Python 驱动 AHT20 温湿度传感器，并将数据以大字体、带进度条的形式显示在 0.96 寸 OLED（SSD1306/CH1116）屏幕上。本项目通过 Python 3 调用 smbus2 和 Pillow 库，代码由 Gemini AI 辅助生成。</p>
+<h2>准备工作</h2>
+<table>
+<thead>
+<tr>
+<th>物品</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>树莓派 Zero 2 W</td>
+<td>已刷写 Raspberry Pi OS</td>
+</tr>
+<tr>
+<td>AHT20 模块</td>
+<td>温湿度传感器，I2C 接口</td>
+</tr>
+<tr>
+<td>0.96 寸 OLED</td>
+<td>SSD1306 / CH1116 驱动，I2C 接口</td>
+</tr>
+<tr>
+<td>杜邦线</td>
+<td>公对母，4 根</td>
+</tr>
+<tr>
+<td>软件依赖</td>
+<td>Python 3、smbus2、Pillow、文泉驿正黑字体</td>
+</tr>
+</tbody>
+</table>
+<h2>硬件连接</h2>
+<p>AHT20 和 OLED 均使用 I2C 接口，树莓派 I2C 总线支持挂载多个设备，将它们并联即可。</p>
+<table>
+<thead>
+<tr>
+<th>模块引脚</th>
+<th>说明</th>
+<th>树莓派引脚 (物理编号)</th>
+<th>树莓派功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VCC</td>
+<td>电源 (3.3V)</td>
+<td>Pin 1</td>
+<td>3.3V Power</td>
+</tr>
+<tr>
+<td>GND</td>
+<td>接地</td>
+<td>Pin 9</td>
+<td>Ground</td>
+</tr>
+<tr>
+<td>SCL</td>
+<td>I2C 时钟</td>
+<td>Pin 5</td>
+<td>GPIO 3 (SCL)</td>
+</tr>
+<tr>
+<td>SDA</td>
+<td>I2C 数据</td>
+<td>Pin 3</td>
+<td>GPIO 2 (SDA)</td>
+</tr>
+</tbody>
+</table>
+<h2>软件配置</h2>
+<h3>启用 I2C</h3>
+<pre><code>sudo raspi-config
+</code></pre>
+<p>依次选择 <code>Interface Options</code> → <code>I2C</code> → <code>Yes</code>，保存并重启。</p>
+<h3>安装中文字体</h3>
+<pre><code>sudo apt update
+sudo apt install fonts-wqy-zenhei
+</code></pre>
+<h3>创建虚拟环境并安装依赖</h3>
+<pre><code>python3 -m venv myenv --system-site-packages
+source myenv/bin/activate
+
+pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple smbus2 Pillow
+</code></pre>
+<h2>使用方法</h2>
+<ol>
+<li>确保 I2C 已启用（见软件配置）</li>
+<li>激活虚拟环境：<code>source myenv/bin/activate</code></li>
+<li>运行脚本：<code>python3 oled_aht20.py</code></li>
+<li>OLED 屏幕将每 2 秒刷新一次温湿度数据</li>
+</ol>
+<h2>完整代码</h2>
+<pre><code>import time
+import os
+from smbus2 import SMBus
+from PIL import Image, ImageDraw, ImageFont
+
+# --- 配置 ---
+I2C_BUS = 1
+AHT20_ADDR = 0x38
+OLED_ADDR = 0x3C
+
+
+def get_font(size):
+    """尝试多个常见路径，确保找到中文字体"""
+    font_paths = [
+        "simhei.ttf",
+        "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
+    ]
+    for path in font_paths:
+        if os.path.exists(path):
+            return ImageFont.truetype(path, size)
+    print(f"警告: 未找到中文字体，使用系统默认字体 (字号: {size})")
+    return ImageFont.load_default()
+
+
+def oled_command(bus, cmd):
+    bus.write_byte_data(OLED_ADDR, 0x00, cmd)
+
+
+def oled_init(bus):
+    cmds = [0xAE, 0xD5, 0x80, 0xA8, 0x3F, 0xD3, 0x00, 0x40, 0x8D, 0x14,
+            0x20, 0x02, 0xA1, 0xC8, 0xDA, 0x12, 0x81, 0xCF, 0xD9, 0xF1,
+            0xDB, 0x40, 0xA4, 0xA6, 0xAF]
+    for c in cmds:
+        oled_command(bus, c)
+
+
+def oled_display(bus, image):
+    img = image.convert("1")
+    pix = img.load()
+    for page in range(8):
+        oled_command(bus, 0xB0 + page)
+        oled_command(bus, 0x00)
+        oled_command(bus, 0x10)
+        page_data = []
+        for x in range(128):
+            byte = 0
+            for bit in range(8):
+                if pix[x, page * 8 + bit]:
+                    byte |= (1 &lt;&lt; bit)
+            page_data.append(byte)
+        for i in range(0, 128, 32):
+            bus.write_i2c_block_data(OLED_ADDR, 0x40, page_data[i:i + 32])
+
+
+def read_aht20(bus):
+    bus.write_i2c_block_data(AHT20_ADDR, 0xAC, [0x33, 0x00])
+    time.sleep(0.08)
+    data = bus.read_i2c_block_data(AHT20_ADDR, 0x71, 7)
+    h_raw = ((data[1] &lt;&lt; 12) | (data[2] &lt;&lt; 4) | (data[3] &gt;&gt; 4))
+    t_raw = ((data[3] &amp; 0x0F) &lt;&lt; 16) | (data[4] &lt;&lt; 8) | data[5]
+    return (t_raw / 1048576 * 200 - 50), (h_raw / 1048576 * 100)
+
+
+def main():
+    bus = SMBus(I2C_BUS)
+    oled_init(bus)
+
+    f_huge = get_font(30)
+    f_mid = get_font(16)
+    f_small = get_font(12)
+
+    while True:
+        try:
+            temp, humi = read_aht20(bus)
+            img = Image.new("1", (128, 64))
+            draw = ImageDraw.Draw(img)
+
+            t_str = f"{temp:.1f}"
+            draw.text((5, -2), t_str, font=f_huge, fill=255)
+            t_w = draw.textlength(t_str, font=f_huge)
+            draw.text((5 + t_w + 2, 12), "°C", font=f_mid, fill=255)
+
+            draw.line((0, 31, 128, 31), fill=255)
+
+            draw.text((5, 35), f"湿度:", font=f_mid, fill=255)
+            draw.text((50, 35), f"{humi:.1f}%", font=f_mid, fill=255)
+
+            draw.rectangle((5, 54, 122, 60), outline=255, fill=0)
+            bar_w = int(humi / 100 * 115)
+            draw.rectangle((7, 56, 7 + bar_w, 58), outline=255, fill=255)
+
+            oled_display(bus, img)
+        except Exception as e:
+            print(f"Error: {e}")
+
+        time.sleep(2)
+
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+]]></content>
+    <author>
+      <name>天俞cy</name>
+    </author>
+    <category term="树莓派"></category>
+  </entry>
+  <entry>
+    <title>使用树莓派Zero 2W驱动屏幕播放视频</title>
+    <link href="https://tianyucy.github.io/posts/raspi-screen-video/" rel="alternate" type="text/html"/>
+    <id>https://tianyucy.github.io/posts/raspi-screen-video/</id>
+    <published>2026-04-05T00:00:00.000Z</published>
+    <updated>2026-04-05T00:00:00.000Z</updated>
+    <summary></summary>
+    <content type="html"><![CDATA[<p>本文章通过 Python 驱动 1.8 寸 TFT 屏幕（ST7735S 芯片），实现将 MP4 视频在屏幕上播放。代码由 Gemini AI 辅助生成。</p>
+<h2>准备工作</h2>
+<table>
+<thead>
+<tr>
+<th>物品</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>树莓派 Zero 2 W</td>
+<td>已刷写 Raspberry Pi OS</td>
+</tr>
+<tr>
+<td>1.8 寸 TFT LCD</td>
+<td>ST7735S 芯片，SPI 接口</td>
+</tr>
+<tr>
+<td>杜邦线</td>
+<td>公对母，8 根</td>
+</tr>
+<tr>
+<td>软件依赖</td>
+<td>Python 3、luma.lcd、opencv-python、Pillow</td>
+</tr>
+</tbody>
+</table>
+<h2>硬件连接</h2>
+<p>根据 LCD 引脚定义（GND, VCC, SCL, SDA, RES, DC, CS, BL），按以下方式连接：</p>
+<table>
+<thead>
+<tr>
+<th>LCD 引脚</th>
+<th>说明</th>
+<th>树莓派引脚 (物理编号)</th>
+<th>树莓派功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GND</td>
+<td>接地</td>
+<td>Pin 6 / 9 / 14 等</td>
+<td>GND</td>
+</tr>
+<tr>
+<td>VCC</td>
+<td>电源 (3.3V)</td>
+<td>Pin 1 或 Pin 17</td>
+<td>3.3V Power</td>
+</tr>
+<tr>
+<td>SCL</td>
+<td>SPI 时钟 (CLK)</td>
+<td>Pin 23</td>
+<td>GPIO 11 (SPI0_SCLK)</td>
+</tr>
+<tr>
+<td>SDA</td>
+<td>SPI 数据 (MOSI)</td>
+<td>Pin 19</td>
+<td>GPIO 10 (SPI0_MOSI)</td>
+</tr>
+<tr>
+<td>RES</td>
+<td>复位 (Reset)</td>
+<td>Pin 22</td>
+<td>GPIO 25 (可自定义)</td>
+</tr>
+<tr>
+<td>DC</td>
+<td>数据/命令选择</td>
+<td>Pin 18</td>
+<td>GPIO 24 (可自定义)</td>
+</tr>
+<tr>
+<td>CS</td>
+<td>片选 (Chip Select)</td>
+<td>Pin 24</td>
+<td>GPIO 8 (SPI0_CE0)</td>
+</tr>
+<tr>
+<td>BL</td>
+<td>背光控制</td>
+<td>Pin 12 或 Pin 1</td>
+<td>GPIO 18 或 3.3V</td>
+</tr>
+</tbody>
+</table>
+<p>查看引脚定义：<code>pinout</code></p>
+<h2>软件配置</h2>
+<h3>启用 SPI</h3>
+<pre><code>sudo raspi-config
+</code></pre>
+<p>依次选择 <code>Interface Options</code> → <code>SPI</code> → <code>Yes</code>，保存并重启。</p>
+<h3>安装依赖</h3>
+<pre><code>pip3 install luma.lcd opencv-python Pillow
+</code></pre>
+<h2>使用方法</h2>
+<ol>
+<li>确保 SPI 已启用（见软件配置）</li>
+<li>将 MP4 视频文件放入脚本同目录</li>
+<li>运行：<code>python3 play_video.py 视频名.mp4</code></li>
+</ol>
+<h2>完整代码</h2>
+<pre><code>import cv2
+import time
+from luma.lcd.device import st7735
+from luma.core.interface.serial import spi
+from PIL import Image
+
+# --- 硬件初始化 (60MHz) ---
+serial = spi(port=0, device=0, gpio_DC=24, gpio_RST=25, baudrate=60000000)
+try:
+    device = st7735(serial, width=160, height=128, rotate=0, bgr=False,
+                    h_offset=1, v_offset=2)
+except Exception as e:
+    print(f"初始化失败: {e}")
+    exit(1)
+
+
+def play_video_fast(video_path):
+    cap = cv2.VideoCapture(video_path)
+    if not cap.isOpened():
+        print(f"无法打开视频: {video_path}")
+        return
+
+    # 获取视频帧率
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    frame_duration = 1.0 / fps
+
+    print(f"原始帧率: {fps}, 目标分辨率: {device.width}x{device.height}")
+
+    start_time = time.time()
+    frame_count = 0
+
+    try:
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            frame_count += 1
+
+            # --- 动态跳帧 ---
+            elapsed = time.time() - start_time
+            expected_frame = int(elapsed / frame_duration)
+
+            if frame_count &lt; expected_frame:
+                continue
+
+            # --- 图像处理 ---
+            small_frame = cv2.resize(frame, (device.width, device.height),
+                                     interpolation=cv2.INTER_NEAREST)
+            rgb_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
+            img = Image.fromarray(rgb_frame)
+            device.display(img)
+
+    except KeyboardInterrupt:
+        print("播放已停止")
+    finally:
+        cap.release()
+
+
+if __name__ == "__main__":
+    import sys
+    video = sys.argv[1] if len(sys.argv) &gt; 1 else "video.mp4"
+    play_video_fast(video)
+</code></pre>
+<h2>硬件来源</h2>
+<p><a href="http://www.zjydisplay.com/product/98.html">1.8英寸TFT LCD</a></p>
+]]></content>
+    <author>
+      <name>天俞cy</name>
+    </author>
+    <category term="树莓派"></category>
+  </entry>
+  <entry>
+    <title>我的第一个博客</title>
+    <link href="https://tianyucy.github.io/posts/raspi-first-blog/" rel="alternate" type="text/html"/>
+    <id>https://tianyucy.github.io/posts/raspi-first-blog/</id>
+    <published>2026-04-04T00:00:00.000Z</published>
+    <updated>2026-04-04T00:00:00.000Z</updated>
+    <summary></summary>
+    <content type="html"><![CDATA[<h1>介绍</h1>
+<p><strong>本网站是基于 Astro + Mizuki 主题搭建的静态博客，部署在 GitHub Pages。本人是第一次来创建网站，如有问题，请多指教。</strong></p>
+]]></content>
+    <author>
+      <name>天俞cy</name>
+    </author>
+  </entry>
 </feed>

@@ -1,1 +1,370 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>天俞cyの博客</title><description>欢迎来到我的博客!!!</description><link>https://tianyucy.github.io/</link><language>zh_CN</language></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>天俞cyの博客</title><description>欢迎来到我的博客!!!</description><link>https://tianyucy.github.io/</link><language>zh_CN</language><item><title>树莓派Zero2W驱动AHT20传感器并在OLED屏幕显示温湿度</title><link>https://tianyucy.github.io/posts/raspi-aht20-oled/</link><guid isPermaLink="true">https://tianyucy.github.io/posts/raspi-aht20-oled/</guid><pubDate>Mon, 20 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;本文章详细记录如何在树莓派 Zero 2 W 上通过 Python 驱动 AHT20 温湿度传感器，并将数据以大字体、带进度条的形式显示在 0.96 寸 OLED（SSD1306/CH1116）屏幕上。本项目通过 Python 3 调用 smbus2 和 Pillow 库，代码由 Gemini AI 辅助生成。&lt;/p&gt;
+&lt;h2&gt;准备工作&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;物品&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;树莓派 Zero 2 W&lt;/td&gt;
+&lt;td&gt;已刷写 Raspberry Pi OS&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;AHT20 模块&lt;/td&gt;
+&lt;td&gt;温湿度传感器，I2C 接口&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;0.96 寸 OLED&lt;/td&gt;
+&lt;td&gt;SSD1306 / CH1116 驱动，I2C 接口&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;杜邦线&lt;/td&gt;
+&lt;td&gt;公对母，4 根&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;软件依赖&lt;/td&gt;
+&lt;td&gt;Python 3、smbus2、Pillow、文泉驿正黑字体&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;硬件连接&lt;/h2&gt;
+&lt;p&gt;AHT20 和 OLED 均使用 I2C 接口，树莓派 I2C 总线支持挂载多个设备，将它们并联即可。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;模块引脚&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;th&gt;树莓派引脚 (物理编号)&lt;/th&gt;
+&lt;th&gt;树莓派功能&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;VCC&lt;/td&gt;
+&lt;td&gt;电源 (3.3V)&lt;/td&gt;
+&lt;td&gt;Pin 1&lt;/td&gt;
+&lt;td&gt;3.3V Power&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;GND&lt;/td&gt;
+&lt;td&gt;接地&lt;/td&gt;
+&lt;td&gt;Pin 9&lt;/td&gt;
+&lt;td&gt;Ground&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SCL&lt;/td&gt;
+&lt;td&gt;I2C 时钟&lt;/td&gt;
+&lt;td&gt;Pin 5&lt;/td&gt;
+&lt;td&gt;GPIO 3 (SCL)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SDA&lt;/td&gt;
+&lt;td&gt;I2C 数据&lt;/td&gt;
+&lt;td&gt;Pin 3&lt;/td&gt;
+&lt;td&gt;GPIO 2 (SDA)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;软件配置&lt;/h2&gt;
+&lt;h3&gt;启用 I2C&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;sudo raspi-config
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;依次选择 &lt;code&gt;Interface Options&lt;/code&gt; → &lt;code&gt;I2C&lt;/code&gt; → &lt;code&gt;Yes&lt;/code&gt;，保存并重启。&lt;/p&gt;
+&lt;h3&gt;安装中文字体&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt update
+sudo apt install fonts-wqy-zenhei
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;创建虚拟环境并安装依赖&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;python3 -m venv myenv --system-site-packages
+source myenv/bin/activate
+
+pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple smbus2 Pillow
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;使用方法&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;确保 I2C 已启用（见软件配置）&lt;/li&gt;
+&lt;li&gt;激活虚拟环境：&lt;code&gt;source myenv/bin/activate&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;运行脚本：&lt;code&gt;python3 oled_aht20.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;OLED 屏幕将每 2 秒刷新一次温湿度数据&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;完整代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;import time
+import os
+from smbus2 import SMBus
+from PIL import Image, ImageDraw, ImageFont
+
+# --- 配置 ---
+I2C_BUS = 1
+AHT20_ADDR = 0x38
+OLED_ADDR = 0x3C
+
+
+def get_font(size):
+    &quot;&quot;&quot;尝试多个常见路径，确保找到中文字体&quot;&quot;&quot;
+    font_paths = [
+        &quot;simhei.ttf&quot;,
+        &quot;/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc&quot;,
+        &quot;/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc&quot;
+    ]
+    for path in font_paths:
+        if os.path.exists(path):
+            return ImageFont.truetype(path, size)
+    print(f&quot;警告: 未找到中文字体，使用系统默认字体 (字号: {size})&quot;)
+    return ImageFont.load_default()
+
+
+def oled_command(bus, cmd):
+    bus.write_byte_data(OLED_ADDR, 0x00, cmd)
+
+
+def oled_init(bus):
+    cmds = [0xAE, 0xD5, 0x80, 0xA8, 0x3F, 0xD3, 0x00, 0x40, 0x8D, 0x14,
+            0x20, 0x02, 0xA1, 0xC8, 0xDA, 0x12, 0x81, 0xCF, 0xD9, 0xF1,
+            0xDB, 0x40, 0xA4, 0xA6, 0xAF]
+    for c in cmds:
+        oled_command(bus, c)
+
+
+def oled_display(bus, image):
+    img = image.convert(&quot;1&quot;)
+    pix = img.load()
+    for page in range(8):
+        oled_command(bus, 0xB0 + page)
+        oled_command(bus, 0x00)
+        oled_command(bus, 0x10)
+        page_data = []
+        for x in range(128):
+            byte = 0
+            for bit in range(8):
+                if pix[x, page * 8 + bit]:
+                    byte |= (1 &amp;lt;&amp;lt; bit)
+            page_data.append(byte)
+        for i in range(0, 128, 32):
+            bus.write_i2c_block_data(OLED_ADDR, 0x40, page_data[i:i + 32])
+
+
+def read_aht20(bus):
+    bus.write_i2c_block_data(AHT20_ADDR, 0xAC, [0x33, 0x00])
+    time.sleep(0.08)
+    data = bus.read_i2c_block_data(AHT20_ADDR, 0x71, 7)
+    h_raw = ((data[1] &amp;lt;&amp;lt; 12) | (data[2] &amp;lt;&amp;lt; 4) | (data[3] &amp;gt;&amp;gt; 4))
+    t_raw = ((data[3] &amp;amp; 0x0F) &amp;lt;&amp;lt; 16) | (data[4] &amp;lt;&amp;lt; 8) | data[5]
+    return (t_raw / 1048576 * 200 - 50), (h_raw / 1048576 * 100)
+
+
+def main():
+    bus = SMBus(I2C_BUS)
+    oled_init(bus)
+
+    f_huge = get_font(30)
+    f_mid = get_font(16)
+    f_small = get_font(12)
+
+    while True:
+        try:
+            temp, humi = read_aht20(bus)
+            img = Image.new(&quot;1&quot;, (128, 64))
+            draw = ImageDraw.Draw(img)
+
+            t_str = f&quot;{temp:.1f}&quot;
+            draw.text((5, -2), t_str, font=f_huge, fill=255)
+            t_w = draw.textlength(t_str, font=f_huge)
+            draw.text((5 + t_w + 2, 12), &quot;°C&quot;, font=f_mid, fill=255)
+
+            draw.line((0, 31, 128, 31), fill=255)
+
+            draw.text((5, 35), f&quot;湿度:&quot;, font=f_mid, fill=255)
+            draw.text((50, 35), f&quot;{humi:.1f}%&quot;, font=f_mid, fill=255)
+
+            draw.rectangle((5, 54, 122, 60), outline=255, fill=0)
+            bar_w = int(humi / 100 * 115)
+            draw.rectangle((7, 56, 7 + bar_w, 58), outline=255, fill=255)
+
+            oled_display(bus, img)
+        except Exception as e:
+            print(f&quot;Error: {e}&quot;)
+
+        time.sleep(2)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>使用树莓派Zero 2W驱动屏幕播放视频</title><link>https://tianyucy.github.io/posts/raspi-screen-video/</link><guid isPermaLink="true">https://tianyucy.github.io/posts/raspi-screen-video/</guid><pubDate>Sun, 05 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;本文章通过 Python 驱动 1.8 寸 TFT 屏幕（ST7735S 芯片），实现将 MP4 视频在屏幕上播放。代码由 Gemini AI 辅助生成。&lt;/p&gt;
+&lt;h2&gt;准备工作&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;物品&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;树莓派 Zero 2 W&lt;/td&gt;
+&lt;td&gt;已刷写 Raspberry Pi OS&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1.8 寸 TFT LCD&lt;/td&gt;
+&lt;td&gt;ST7735S 芯片，SPI 接口&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;杜邦线&lt;/td&gt;
+&lt;td&gt;公对母，8 根&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;软件依赖&lt;/td&gt;
+&lt;td&gt;Python 3、luma.lcd、opencv-python、Pillow&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;硬件连接&lt;/h2&gt;
+&lt;p&gt;根据 LCD 引脚定义（GND, VCC, SCL, SDA, RES, DC, CS, BL），按以下方式连接：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;LCD 引脚&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;th&gt;树莓派引脚 (物理编号)&lt;/th&gt;
+&lt;th&gt;树莓派功能&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;GND&lt;/td&gt;
+&lt;td&gt;接地&lt;/td&gt;
+&lt;td&gt;Pin 6 / 9 / 14 等&lt;/td&gt;
+&lt;td&gt;GND&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;VCC&lt;/td&gt;
+&lt;td&gt;电源 (3.3V)&lt;/td&gt;
+&lt;td&gt;Pin 1 或 Pin 17&lt;/td&gt;
+&lt;td&gt;3.3V Power&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SCL&lt;/td&gt;
+&lt;td&gt;SPI 时钟 (CLK)&lt;/td&gt;
+&lt;td&gt;Pin 23&lt;/td&gt;
+&lt;td&gt;GPIO 11 (SPI0_SCLK)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SDA&lt;/td&gt;
+&lt;td&gt;SPI 数据 (MOSI)&lt;/td&gt;
+&lt;td&gt;Pin 19&lt;/td&gt;
+&lt;td&gt;GPIO 10 (SPI0_MOSI)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;RES&lt;/td&gt;
+&lt;td&gt;复位 (Reset)&lt;/td&gt;
+&lt;td&gt;Pin 22&lt;/td&gt;
+&lt;td&gt;GPIO 25 (可自定义)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;DC&lt;/td&gt;
+&lt;td&gt;数据/命令选择&lt;/td&gt;
+&lt;td&gt;Pin 18&lt;/td&gt;
+&lt;td&gt;GPIO 24 (可自定义)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CS&lt;/td&gt;
+&lt;td&gt;片选 (Chip Select)&lt;/td&gt;
+&lt;td&gt;Pin 24&lt;/td&gt;
+&lt;td&gt;GPIO 8 (SPI0_CE0)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BL&lt;/td&gt;
+&lt;td&gt;背光控制&lt;/td&gt;
+&lt;td&gt;Pin 12 或 Pin 1&lt;/td&gt;
+&lt;td&gt;GPIO 18 或 3.3V&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;查看引脚定义：&lt;code&gt;pinout&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;软件配置&lt;/h2&gt;
+&lt;h3&gt;启用 SPI&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;sudo raspi-config
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;依次选择 &lt;code&gt;Interface Options&lt;/code&gt; → &lt;code&gt;SPI&lt;/code&gt; → &lt;code&gt;Yes&lt;/code&gt;，保存并重启。&lt;/p&gt;
+&lt;h3&gt;安装依赖&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;pip3 install luma.lcd opencv-python Pillow
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;使用方法&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;确保 SPI 已启用（见软件配置）&lt;/li&gt;
+&lt;li&gt;将 MP4 视频文件放入脚本同目录&lt;/li&gt;
+&lt;li&gt;运行：&lt;code&gt;python3 play_video.py 视频名.mp4&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;完整代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;import cv2
+import time
+from luma.lcd.device import st7735
+from luma.core.interface.serial import spi
+from PIL import Image
+
+# --- 硬件初始化 (60MHz) ---
+serial = spi(port=0, device=0, gpio_DC=24, gpio_RST=25, baudrate=60000000)
+try:
+    device = st7735(serial, width=160, height=128, rotate=0, bgr=False,
+                    h_offset=1, v_offset=2)
+except Exception as e:
+    print(f&quot;初始化失败: {e}&quot;)
+    exit(1)
+
+
+def play_video_fast(video_path):
+    cap = cv2.VideoCapture(video_path)
+    if not cap.isOpened():
+        print(f&quot;无法打开视频: {video_path}&quot;)
+        return
+
+    # 获取视频帧率
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    frame_duration = 1.0 / fps
+
+    print(f&quot;原始帧率: {fps}, 目标分辨率: {device.width}x{device.height}&quot;)
+
+    start_time = time.time()
+    frame_count = 0
+
+    try:
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            frame_count += 1
+
+            # --- 动态跳帧 ---
+            elapsed = time.time() - start_time
+            expected_frame = int(elapsed / frame_duration)
+
+            if frame_count &amp;lt; expected_frame:
+                continue
+
+            # --- 图像处理 ---
+            small_frame = cv2.resize(frame, (device.width, device.height),
+                                     interpolation=cv2.INTER_NEAREST)
+            rgb_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
+            img = Image.fromarray(rgb_frame)
+            device.display(img)
+
+    except KeyboardInterrupt:
+        print(&quot;播放已停止&quot;)
+    finally:
+        cap.release()
+
+
+if __name__ == &quot;__main__&quot;:
+    import sys
+    video = sys.argv[1] if len(sys.argv) &amp;gt; 1 else &quot;video.mp4&quot;
+    play_video_fast(video)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;硬件来源&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.zjydisplay.com/product/98.html&quot;&gt;1.8英寸TFT LCD&lt;/a&gt;&lt;/p&gt;
+</content:encoded></item><item><title>我的第一个博客</title><link>https://tianyucy.github.io/posts/raspi-first-blog/</link><guid isPermaLink="true">https://tianyucy.github.io/posts/raspi-first-blog/</guid><pubDate>Sat, 04 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;介绍&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;本网站是基于 Astro + Mizuki 主题搭建的静态博客，部署在 GitHub Pages。本人是第一次来创建网站，如有问题，请多指教。&lt;/strong&gt;&lt;/p&gt;
+</content:encoded></item></channel></rss>
