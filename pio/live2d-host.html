@@ -98,10 +98,45 @@
     }
 
     var notified = false;
+    var lastHoverTarget = null;
     function notifyOnce() {
       if (notified) return;
       notified = true;
       notifyLoaded();
+      setupHoverTracking();
+    }
+
+    function setupHoverTracking() {
+      document.addEventListener('mouseover', function(e) {
+        var el = e.target;
+        while (el && el !== document.body) {
+          if (el.tagName === 'CANVAS' || el.hasAttribute && el.hasAttribute('data-l2d-interactive')) {
+            if (lastHoverTarget !== el) {
+              lastHoverTarget = el;
+              parent.postMessage({ type: 'l2d-hover' }, '*');
+            }
+            return;
+          }
+          el = el.parentElement;
+        }
+        if (lastHoverTarget) {
+          lastHoverTarget = null;
+          parent.postMessage({ type: 'l2d-hover-end' }, '*');
+        }
+      }, true);
+      document.addEventListener('mouseout', function(e) {
+        var el = e.target;
+        while (el && el !== document.body) {
+          if (el.tagName === 'CANVAS' || el.hasAttribute && el.hasAttribute('data-l2d-interactive')) {
+            return;
+          }
+          el = el.parentElement;
+        }
+        if (lastHoverTarget) {
+          lastHoverTarget = null;
+          parent.postMessage({ type: 'l2d-hover-end' }, '*');
+        }
+      }, true);
     }
 
     var checkInterval = setInterval(function() {
