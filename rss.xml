@@ -365,6 +365,9 @@ if __name__ == &quot;__main__&quot;:
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2&gt;硬件来源&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;http://www.zjydisplay.com/product/98.html&quot;&gt;1.8英寸TFT LCD&lt;/a&gt;&lt;/p&gt;
-</content:encoded></item><item><title>我的第一个博客</title><link>https://tianyucy.github.io/posts/raspi-first-blog/</link><guid isPermaLink="true">https://tianyucy.github.io/posts/raspi-first-blog/</guid><pubDate>Sat, 04 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;介绍&lt;/h1&gt;
-&lt;p&gt;&lt;strong&gt;本网站是基于 Astro + Mizuki 主题搭建的静态博客，部署在 GitHub Pages。本人是第一次来创建网站，如有问题，请多指教。&lt;/strong&gt;&lt;/p&gt;
+</content:encoded></item><item><title>我的第一个博客</title><link>https://tianyucy.github.io/posts/raspi-first-blog/</link><guid isPermaLink="true">https://tianyucy.github.io/posts/raspi-first-blog/</guid><description>记录这个网站的搭建方式。</description><pubDate>Sat, 04 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;介绍&lt;/h2&gt;
+&lt;p&gt;这是我的第一个个人博客。网站基于 Astro 静态网站框架和 Mizuki 主题搭建，并部署在 GitHub Pages。&lt;/p&gt;
+&lt;h2&gt;网站是如何实现的&lt;/h2&gt;
+&lt;p&gt;搭建过程中，我通过 ChatGPT 协助完成网站配置、页面调整和功能实现，再结合自己的需求进行修改与整理。这样既保留了 Mizuki 主题的基础能力，也让网站逐步成为现在的样子。&lt;/p&gt;
+&lt;p&gt;网站的主要组成很简单：Astro 负责生成静态页面，Mizuki 提供主题与组件，GitHub Pages 负责发布。之后我会继续在这里记录学习过程和项目内容。&lt;/p&gt;
 </content:encoded></item></channel></rss>

@@ -13,11 +13,22 @@
   var activeConfigKey = '';
   var loadingConfigKey = '';
   var lastContentHeight = 500;
+  var hoverTrackingReady = false;
+  var dragTrackingReady = false;
+  var lastHoverTarget = null;
+  var activePointerId = null;
+  var dragCanvas = null;
+  var dragOrigin = null;
+  var dragging = false;
+  var pendingDragMove = null;
+  var dragMoveFrame = null;
+  var suppressClickTimer = null;
+  var clearSuppressedCanvasClick = function() {};
 
   var menuActions = {
     home: function() { parent.postMessage({ type: 'l2d-action', action: 'home' }, '*'); },
     scrollToTop: function() { parent.postMessage({ type: 'l2d-action', action: 'scrollToTop' }, '*'); },
-    sleep: function(w) { w.sleep(); },
+    sleep: function(w) { w.sleep(); }
   };
 
   function notifyLoaded() {
@@ -25,12 +36,9 @@
     document.querySelectorAll('*').forEach(function(el) {
       if (el.getBoundingClientRect) {
         var r = el.getBoundingClientRect();
-        if (r.width > 0 && r.height > 0 && r.bottom > maxBottom) {
-          maxBottom = r.bottom;
-        }
+        if (r.width > 0 && r.height > 0 && r.bottom > maxBottom) maxBottom = r.bottom;
       }
     });
-
     lastContentHeight = Math.ceil(maxBottom) || lastContentHeight || 500;
     parent.postMessage({ type: 'l2d-loaded', contentHeight: lastContentHeight }, '*');
   }
@@ -45,45 +53,151 @@
 
   function destroyWidget() {
     if (!widgetInstance) return;
-    try {
-      widgetInstance.destroy();
-    } catch (err) {
-      console.error('Failed to destroy Live2D widget:', err);
-    }
+    try { widgetInstance.destroy(); } catch (err) { console.error('Failed to destroy Live2D widget:', err); }
     widgetInstance = null;
   }
 
-  window.addEventListener('message', function(e) {
-    if (e.data.type !== 'l2d-init') return;
-    var config = e.data.config;
-    var configKey = JSON.stringify(config);
-
-    if (widgetInstance && activeConfigKey === configKey) {
-      notifyLoaded();
-      return;
+  function interactiveTarget(target) {
+    var el = target;
+    while (el && el !== document.body) {
+      if (el.tagName === 'CANVAS') return el;
+      el = el.parentElement;
     }
+    return null;
+  }
 
-    if (loadingConfigKey === configKey) {
-      return;
+  function setupHoverTracking() {
+    if (hoverTrackingReady) return;
+    hoverTrackingReady = true;
+    document.addEventListener('mouseover', function(e) {
+      var target = interactiveTarget(e.target);
+      if (target) {
+        if (lastHoverTarget !== target) {
+          lastHoverTarget = target;
+          parent.postMessage({ type: 'l2d-hover' }, '*');
+        }
+      } else if (lastHoverTarget) {
+        lastHoverTarget = null;
+        parent.postMessage({ type: 'l2d-hover-end' }, '*');
+      }
+    }, true);
+    document.addEventListener('mouseout', function(e) {
+      if (!interactiveTarget(e.relatedTarget) && lastHoverTarget) {
+        lastHoverTarget = null;
+        parent.postMessage({ type: 'l2d-hover-end' }, '*');
+      }
+    }, true);
+  }
+
+  function suppressCanvasClick(canvas) {
+    var clearSuppression = function() {
+      clearTimeout(suppressClickTimer);
+      suppressClickTimer = null;
+      canvas.removeEventListener('click', suppressClick, true);
+      if (clearSuppressedCanvasClick === clearSuppression) clearSuppressedCanvasClick = function() {};
+    };
+    var suppressClick = function(e) {
+      if (e.target !== canvas) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      clearSuppression();
+    };
+    clearSuppressedCanvasClick();
+    clearSuppressedCanvasClick = clearSuppression;
+    canvas.addEventListener('click', suppressClick, true);
+    suppressClickTimer = setTimeout(clearSuppression, 500);
+  }
+
+  function setupDragTracking() {
+    if (dragTrackingReady) return;
+    dragTrackingReady = true;
+    document.addEventListener('pointerdown', function(e) {
+      if (e.target.tagName !== 'CANVAS') return;
+      clearSuppressedCanvasClick();
+      activePointerId = e.pointerId;
+      dragCanvas = e.target;
+      dragOrigin = { x: e.screenX, y: e.screenY };
+      dragging = false;
+      e.target.setPointerCapture(e.pointerId);
+    }, true);
+    function flushDragMove() {
+      dragMoveFrame = null;
+      if (!dragging || !pendingDragMove) return;
+      parent.postMessage({
+        type: 'l2d-drag-move',
+        pointerX: pendingDragMove.x,
+        pointerY: pendingDragMove.y
+      }, '*');
+      pendingDragMove = null;
     }
-
-    loadingConfigKey = configKey;
-    if (widgetInstance) {
-      destroyWidget();
+    window.addEventListener('pointermove', function(e) {
+      if (e.pointerId !== activePointerId || !dragOrigin) return;
+      var dx = e.screenX - dragOrigin.x;
+      var dy = e.screenY - dragOrigin.y;
+      if (!dragging && Math.hypot(dx, dy) > 6) {
+        dragging = true;
+        dragCanvas.style.cursor = 'grabbing';
+        parent.postMessage({ type: 'l2d-drag-start', pointerX: dragOrigin.x, pointerY: dragOrigin.y }, '*');
+      }
+      if (dragging) {
+        pendingDragMove = { x: e.screenX, y: e.screenY };
+        if (dragMoveFrame === null) dragMoveFrame = requestAnimationFrame(flushDragMove);
+      }
+    }, true);
+    function endDrag(e) {
+      if (e.pointerId !== activePointerId) return;
+      if (dragging) {
+        if (dragMoveFrame !== null) {
+          cancelAnimationFrame(dragMoveFrame);
+          dragMoveFrame = null;
+        }
+        if (pendingDragMove) flushDragMove();
+        if (e.type === 'pointerup' && dragCanvas) suppressCanvasClick(dragCanvas);
+        parent.postMessage({ type: 'l2d-drag-end', pointerX: e.screenX, pointerY: e.screenY }, '*');
+      }
+      if (dragCanvas) dragCanvas.style.cursor = 'grab';
+      activePointerId = null;
+      dragCanvas = null;
+      dragOrigin = null;
+      dragging = false;
+      pendingDragMove = null;
+      if (e.type === 'pointercancel') clearSuppressedCanvasClick();
     }
+    window.addEventListener('pointerup', endDrag, true);
+    window.addEventListener('pointercancel', endDrag, true);
+  }
 
+  function widgetConfigForLibrary(config) {
+    var libraryConfig = Object.assign({}, config);
+    delete libraryConfig.modelIds;
+    delete libraryConfig.placementSide;
     if (config.menus && config.menus.items) {
-      config.menus.items = config.menus.items.map(function(item) {
-        return {
-          icon: item.icon,
-          label: item.label,
-          onClick: menuActions[item.action] || function() {}
-        };
+      libraryConfig.menus = Object.assign({}, config.menus, {
+        items: config.menus.items.map(function(item) {
+          return {
+            icon: item.icon,
+            label: item.label,
+            onClick: menuActions[item.action] || function() {
+              parent.postMessage({ type: 'l2d-action', action: item.action }, '*');
+            }
+          };
+        })
       });
     }
+    return libraryConfig;
+  }
 
+  window.addEventListener('message', function(e) {
+    if (!e.data || e.data.type !== 'l2d-init') return;
+    var config = e.data.config;
+    var configKey = JSON.stringify(config);
+    if (widgetInstance && activeConfigKey === configKey) { notifyLoaded(); return; }
+    if (loadingConfigKey === configKey) return;
+
+    loadingConfigKey = configKey;
+    if (widgetInstance) destroyWidget();
     try {
-      widgetInstance = L2D_WIDGET.createWidget(config);
+      widgetInstance = L2D_WIDGET.createWidget(widgetConfigForLibrary(config));
       activeConfigKey = configKey;
     } catch (err) {
       loadingConfigKey = '';
@@ -92,53 +206,16 @@
       return;
     }
     loadingConfigKey = '';
-
-    if (config._hideAbout) {
-      hideAboutMenu();
-    }
+    if (config._hideAbout) hideAboutMenu();
 
     var notified = false;
-    var lastHoverTarget = null;
     function notifyOnce() {
       if (notified) return;
       notified = true;
       notifyLoaded();
       setupHoverTracking();
+      setupDragTracking();
     }
-
-    function setupHoverTracking() {
-      document.addEventListener('mouseover', function(e) {
-        var el = e.target;
-        while (el && el !== document.body) {
-          if (el.tagName === 'CANVAS' || el.hasAttribute && el.hasAttribute('data-l2d-interactive')) {
-            if (lastHoverTarget !== el) {
-              lastHoverTarget = el;
-              parent.postMessage({ type: 'l2d-hover' }, '*');
-            }
-            return;
-          }
-          el = el.parentElement;
-        }
-        if (lastHoverTarget) {
-          lastHoverTarget = null;
-          parent.postMessage({ type: 'l2d-hover-end' }, '*');
-        }
-      }, true);
-      document.addEventListener('mouseout', function(e) {
-        var el = e.target;
-        while (el && el !== document.body) {
-          if (el.tagName === 'CANVAS' || el.hasAttribute && el.hasAttribute('data-l2d-interactive')) {
-            return;
-          }
-          el = el.parentElement;
-        }
-        if (lastHoverTarget) {
-          lastHoverTarget = null;
-          parent.postMessage({ type: 'l2d-hover-end' }, '*');
-        }
-      }, true);
-    }
-
     var checkInterval = setInterval(function() {
       var canvas = document.querySelector('canvas');
       if (canvas && canvas.width > 0 && canvas.height > 0) {
@@ -146,12 +223,7 @@
         setTimeout(notifyOnce, 300);
       }
     }, 200);
-
-    setTimeout(function() {
-      clearInterval(checkInterval);
-      loadingConfigKey = '';
-      notifyOnce();
-    }, 15000);
+    setTimeout(function() { clearInterval(checkInterval); notifyOnce(); }, 15000);
   });
 </script>
 </body>
