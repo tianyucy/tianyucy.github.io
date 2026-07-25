@@ -14,16 +14,7 @@
   var loadingConfigKey = '';
   var lastContentHeight = 500;
   var hoverTrackingReady = false;
-  var dragTrackingReady = false;
   var lastHoverTarget = null;
-  var activePointerId = null;
-  var dragCanvas = null;
-  var dragOrigin = null;
-  var dragging = false;
-  var pendingDragMove = null;
-  var dragMoveFrame = null;
-  var suppressClickTimer = null;
-  var clearSuppressedCanvasClick = function() {};
 
   var menuActions = {
     home: function() { parent.postMessage({ type: 'l2d-action', action: 'home' }, '*'); },
@@ -32,14 +23,18 @@
   };
 
   function notifyLoaded() {
+    var minTop = 0;
     var maxBottom = 0;
-    document.querySelectorAll('*').forEach(function(el) {
+    document.querySelectorAll('body *').forEach(function(el) {
       if (el.getBoundingClientRect) {
         var r = el.getBoundingClientRect();
-        if (r.width > 0 && r.height > 0 && r.bottom > maxBottom) maxBottom = r.bottom;
+        if (r.width > 0 && r.height > 0) {
+          if (r.top < minTop) minTop = r.top;
+          if (r.bottom > maxBottom) maxBottom = r.bottom;
+        }
       }
     });
-    lastContentHeight = Math.ceil(maxBottom) || lastContentHeight || 500;
+    lastContentHeight = Math.ceil(maxBottom - minTop) || lastContentHeight || 500;
     parent.postMessage({ type: 'l2d-loaded', contentHeight: lastContentHeight }, '*');
   }
 
@@ -89,84 +84,6 @@
     }, true);
   }
 
-  function suppressCanvasClick(canvas) {
-    var clearSuppression = function() {
-      clearTimeout(suppressClickTimer);
-      suppressClickTimer = null;
-      canvas.removeEventListener('click', suppressClick, true);
-      if (clearSuppressedCanvasClick === clearSuppression) clearSuppressedCanvasClick = function() {};
-    };
-    var suppressClick = function(e) {
-      if (e.target !== canvas) return;
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      clearSuppression();
-    };
-    clearSuppressedCanvasClick();
-    clearSuppressedCanvasClick = clearSuppression;
-    canvas.addEventListener('click', suppressClick, true);
-    suppressClickTimer = setTimeout(clearSuppression, 500);
-  }
-
-  function setupDragTracking() {
-    if (dragTrackingReady) return;
-    dragTrackingReady = true;
-    document.addEventListener('pointerdown', function(e) {
-      if (e.target.tagName !== 'CANVAS') return;
-      clearSuppressedCanvasClick();
-      activePointerId = e.pointerId;
-      dragCanvas = e.target;
-      dragOrigin = { x: e.screenX, y: e.screenY };
-      dragging = false;
-      e.target.setPointerCapture(e.pointerId);
-    }, true);
-    function flushDragMove() {
-      dragMoveFrame = null;
-      if (!dragging || !pendingDragMove) return;
-      parent.postMessage({
-        type: 'l2d-drag-move',
-        pointerX: pendingDragMove.x,
-        pointerY: pendingDragMove.y
-      }, '*');
-      pendingDragMove = null;
-    }
-    window.addEventListener('pointermove', function(e) {
-      if (e.pointerId !== activePointerId || !dragOrigin) return;
-      var dx = e.screenX - dragOrigin.x;
-      var dy = e.screenY - dragOrigin.y;
-      if (!dragging && Math.hypot(dx, dy) > 6) {
-        dragging = true;
-        dragCanvas.style.cursor = 'grabbing';
-        parent.postMessage({ type: 'l2d-drag-start', pointerX: dragOrigin.x, pointerY: dragOrigin.y }, '*');
-      }
-      if (dragging) {
-        pendingDragMove = { x: e.screenX, y: e.screenY };
-        if (dragMoveFrame === null) dragMoveFrame = requestAnimationFrame(flushDragMove);
-      }
-    }, true);
-    function endDrag(e) {
-      if (e.pointerId !== activePointerId) return;
-      if (dragging) {
-        if (dragMoveFrame !== null) {
-          cancelAnimationFrame(dragMoveFrame);
-          dragMoveFrame = null;
-        }
-        if (pendingDragMove) flushDragMove();
-        if (e.type === 'pointerup' && dragCanvas) suppressCanvasClick(dragCanvas);
-        parent.postMessage({ type: 'l2d-drag-end', pointerX: e.screenX, pointerY: e.screenY }, '*');
-      }
-      if (dragCanvas) dragCanvas.style.cursor = 'grab';
-      activePointerId = null;
-      dragCanvas = null;
-      dragOrigin = null;
-      dragging = false;
-      pendingDragMove = null;
-      if (e.type === 'pointercancel') clearSuppressedCanvasClick();
-    }
-    window.addEventListener('pointerup', endDrag, true);
-    window.addEventListener('pointercancel', endDrag, true);
-  }
-
   function widgetConfigForLibrary(config) {
     var libraryConfig = Object.assign({}, config);
     delete libraryConfig.modelIds;
@@ -214,7 +131,6 @@
       notified = true;
       notifyLoaded();
       setupHoverTracking();
-      setupDragTracking();
     }
     var checkInterval = setInterval(function() {
       var canvas = document.querySelector('canvas');

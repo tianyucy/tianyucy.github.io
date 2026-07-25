@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>天俞cyの博客</title><description>欢迎来到我的博客!!!</description><link>https://tianyucy.github.io/</link><language>zh_CN</language><item><title>树莓派Zero2W驱动AHT20传感器并在OLED屏幕显示温湿度</title><link>https://tianyucy.github.io/posts/raspi-aht20-oled/</link><guid isPermaLink="true">https://tianyucy.github.io/posts/raspi-aht20-oled/</guid><pubDate>Mon, 20 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;本文章详细记录如何在树莓派 Zero 2 W 上通过 Python 驱动 AHT20 温湿度传感器，并将数据以大字体、带进度条的形式显示在 0.96 寸 OLED（SSD1306/CH1116）屏幕上。本项目通过 Python 3 调用 smbus2 和 Pillow 库，代码由 Gemini AI 辅助生成。&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>天俞cyの博客</title><description>欢迎来到我的博客!!!</description><link>https://tianyucy.github.io/</link><language>zh_CN</language><item><title>树莓派Zero2W驱动AHT20传感器并在OLED屏幕显示温湿度</title><link>https://tianyucy.github.io/posts/raspi-aht20-oled/</link><guid isPermaLink="true">https://tianyucy.github.io/posts/raspi-aht20-oled/</guid><pubDate>Mon, 20 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;本文章详细记录如何在树莓派Zero2W上通过 Python 驱动 AHT20 温湿度传感器，并将数据以大字体、带进度条的形式显示在 0.96 寸 OLED（SSD1306/CH1116）屏幕上。本项目通过 Python 3 调用 smbus2 和 Pillow 库，代码由 Gemini AI 辅助生成。&lt;/p&gt;
 &lt;h2&gt;准备工作&lt;/h2&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -9,7 +9,7 @@
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;树莓派 Zero 2 W&lt;/td&gt;
+&lt;td&gt;树莓派Zero2W&lt;/td&gt;
 &lt;td&gt;已刷写 Raspberry Pi OS&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -193,7 +193,7 @@ def main():
 if __name__ == &quot;__main__&quot;:
     main()
 &lt;/code&gt;&lt;/pre&gt;
-</content:encoded></item><item><title>使用树莓派Zero 2W驱动屏幕播放视频</title><link>https://tianyucy.github.io/posts/raspi-screen-video/</link><guid isPermaLink="true">https://tianyucy.github.io/posts/raspi-screen-video/</guid><pubDate>Sun, 05 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;本文章通过 Python 驱动 1.8 寸 TFT 屏幕（ST7735S 芯片），实现将 MP4 视频在屏幕上播放。代码由 Gemini AI 辅助生成。&lt;/p&gt;
+</content:encoded></item><item><title>使用树莓派Zero2W驱动屏幕播放视频</title><link>https://tianyucy.github.io/posts/raspi-screen-video/</link><guid isPermaLink="true">https://tianyucy.github.io/posts/raspi-screen-video/</guid><pubDate>Sun, 05 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;本文章通过 Python 驱动 1.8 寸 TFT 屏幕（ST7735S 芯片），实现将 MP4 视频在屏幕上播放。代码由 Gemini AI 辅助生成。&lt;/p&gt;
 &lt;h2&gt;准备工作&lt;/h2&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -204,7 +204,7 @@ if __name__ == &quot;__main__&quot;:
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;树莓派 Zero 2 W&lt;/td&gt;
+&lt;td&gt;树莓派Zero2W&lt;/td&gt;
 &lt;td&gt;已刷写 Raspberry Pi OS&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;

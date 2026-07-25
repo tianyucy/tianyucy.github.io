@@ -5,7 +5,7 @@
   <link href="https://tianyucy.github.io/" rel="alternate" type="text/html"/>
   <link href="https://tianyucy.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://tianyucy.github.io/</id>
-  <updated>2026-07-23T09:28:59.987Z</updated>
+  <updated>2026-07-25T11:22:02.092Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>树莓派Zero2W驱动AHT20传感器并在OLED屏幕显示温湿度</title>
@@ -14,7 +14,7 @@
     <published>2026-04-20T00:00:00.000Z</published>
     <updated>2026-04-20T00:00:00.000Z</updated>
     <summary></summary>
-    <content type="html"><![CDATA[<p>本文章详细记录如何在树莓派 Zero 2 W 上通过 Python 驱动 AHT20 温湿度传感器，并将数据以大字体、带进度条的形式显示在 0.96 寸 OLED（SSD1306/CH1116）屏幕上。本项目通过 Python 3 调用 smbus2 和 Pillow 库，代码由 Gemini AI 辅助生成。</p>
+    <content type="html"><![CDATA[<p>本文章详细记录如何在树莓派Zero2W上通过 Python 驱动 AHT20 温湿度传感器，并将数据以大字体、带进度条的形式显示在 0.96 寸 OLED（SSD1306/CH1116）屏幕上。本项目通过 Python 3 调用 smbus2 和 Pillow 库，代码由 Gemini AI 辅助生成。</p>
 <h2>准备工作</h2>
 <table>
 <thead>
@@ -25,7 +25,7 @@
 </thead>
 <tbody>
 <tr>
-<td>树莓派 Zero 2 W</td>
+<td>树莓派Zero2W</td>
 <td>已刷写 Raspberry Pi OS</td>
 </tr>
 <tr>
@@ -216,7 +216,7 @@ if __name__ == "__main__":
     <category term="树莓派"></category>
   </entry>
   <entry>
-    <title>使用树莓派Zero 2W驱动屏幕播放视频</title>
+    <title>使用树莓派Zero2W驱动屏幕播放视频</title>
     <link href="https://tianyucy.github.io/posts/raspi-screen-video/" rel="alternate" type="text/html"/>
     <id>https://tianyucy.github.io/posts/raspi-screen-video/</id>
     <published>2026-04-05T00:00:00.000Z</published>
@@ -233,7 +233,7 @@ if __name__ == "__main__":
 </thead>
 <tbody>
 <tr>
-<td>树莓派 Zero 2 W</td>
+<td>树莓派Zero2W</td>
 <td>已刷写 Raspberry Pi OS</td>
 </tr>
 <tr>
