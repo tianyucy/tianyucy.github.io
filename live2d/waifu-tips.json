@@ -1,0 +1,34 @@
+{
+  "mouseover": [
+    { "selector": "#waifu-tool-switch-model", "text": ["换一位看板娘陪你浏览吧。", "试试另一位角色。"] },
+    { "selector": "#waifu-tool-switch-texture", "text": ["看看有没有新的造型。", "切换一下服装吧。"] },
+    { "selector": "#waifu-tool-photo", "text": ["准备好了吗？保存这一刻。", "截图会保存在浏览器下载中。"] },
+    { "selector": "#waifu-tool-info", "text": ["这里可以查看看板娘项目的信息。"] },
+    { "selector": "#waifu-tool-quit", "text": ["暂时收起我吧，需要时可从右侧重新唤起。"] },
+    { "selector": "#navbar a, #navbar button", "text": ["从这里前往站内的其他页面。"] },
+    { "selector": ".post-card a, #post-container a, #content-wrapper a[href]", "text": ["要打开「<span>{text}</span>」吗？"] },
+    { "selector": ".custom-md img, #post-cover img", "text": ["点击图片可以放大查看。"] },
+    { "selector": ".copy-btn", "text": ["点击复制这段代码。"] }
+  ],
+  "click": [
+    { "selector": ".copy-btn", "text": ["已复制，记得注明来源。"] }
+  ],
+  "seasons": [],
+  "time": [],
+  "message": {
+    "default": ["欢迎来到天俞cyの博客。", "想看文章、听音乐，或随意逛逛都可以。", "停下来读一篇感兴趣的文章吧。"],
+    "console": "控制台里没有隐藏彩蛋，欢迎继续浏览网站。",
+    "copy": "已复制内容，转载时请保留出处。",
+    "visibilitychange": "欢迎回来，继续阅读吧。",
+    "changeSuccess": "新造型加载完成。",
+    "changeFail": "这个角色暂时没有其他造型。",
+    "photo": "截图完成，感谢合影。",
+    "goodbye": "下次见。",
+    "hitokoto": "",
+    "welcome": "欢迎阅读<span>「$1」</span>",
+    "referrer": "欢迎来自 <span>$1</span> 的访客",
+    "hoverBody": ["需要帮忙找文章吗？", "慢慢浏览，祝你阅读愉快。"],
+    "tapBody": ["你好，欢迎来到这里。", "一起继续看看吧。"]
+  },
+  "models": []
+}

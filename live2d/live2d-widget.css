@@ -1,0 +1,48 @@
+/* Load after the upstream stylesheet so the widget matches this site's layout. */
+#waifu {
+	bottom: 0;
+	left: auto;
+	right: 1rem;
+	z-index: 200;
+}
+
+#waifu-toggle {
+	bottom: 5rem;
+	left: auto;
+	right: -5.75rem;
+	margin-left: 0;
+	margin-right: 0;
+	writing-mode: vertical-lr;
+	z-index: 200;
+}
+
+#waifu-toggle.waifu-toggle-active {
+	right: -2.75rem;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#waifu-toggle.waifu-toggle-active:hover {
+	right: -1.5rem;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#waifu-tool {
+	left: auto;
+	right: -0.5rem;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#waifu-tips {
+	margin-left: 0;
+	margin-right: 1rem;
+}
+
+@media (width < 768px) {
+	#waifu,
+	#waifu-toggle {
+		display: none !important;
+	}
+}
